@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro Avançado</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <h1>Cadastro Completo</h1>
+    <p>Treino intermediário de CSS</p>
+  </header>
+
+  <main>
+    <form>
+
+      <fieldset>
+        <legend>Informações pessoais</legend>
+
+        
+          <div class="campo">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome">
+          </div>
+
+          <div class="campo">
+            <label for="sobrenome">Sobrenome</label>
+            <input type="text" id="sobrenome">
+          </div>
+       
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email">
+        </div>
+
+        <div class="campo">
+          <label for="telefone">Telefone</label>
+          <input type="tel" id="telefone">
+        </div>
+
+      </fieldset>
+
+      <fieldset>
+        <legend>Endereço</legend>
+
+        <div class="campo">
+          <label for="cep">CEP</label>
+          <input type="text" id="cep">
+        </div>
+
+        <div class="campo">
+          <label for="endereco">Endereço</label>
+          <input type="text" id="endereco">
+        </div>
+
+        <div class="linha">
+          <div class="campo">
+            <label for="cidade">Cidade</label>
+            <input type="text" id="cidade">
+          </div>
+
+          <div class="campo">
+            <label for="estado">Estado</label>
+            <select id="estado">
+              <option>Selecione</option>
+              <option>MG</option>
+              <option>SP</option>
+              <option>RJ</option>
+            </select>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <fieldset>
+        <legend>Sobre você</legend>
+
+        <div class="campo">
+          <label for="bio">Bio</label>
+          <textarea id="bio" rows="4"></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Interesses</legend>
+        <div class="int ">
+          <label><input  type="checkbox" class="check"> Tecnologia</label>
+          <label><input  type="checkbox" class="check"> Esportes</label>
+          <label><input  type="checkbox" class="check" > Música</label>
+        </div>
+
+      </fieldset>
+
+      <div class="botoes">
+        <button type="reset">Limpar</button>
+        <button type="submit">Enviar</button>
+      </div>
+
+    </form>
+  </main>
+
+</body>
+</html>

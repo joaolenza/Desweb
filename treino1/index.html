@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <h1>Cadastro de Usuário</h1>
+    <p>Treino de CSS</p>
+  </header>
+
+  <main class="container">
+    <form>
+
+      <fieldset>
+        <legend>Dados pessoais</legend>
+
+        <div class="campo">
+          <label for="nome">Nome</label>
+          <input class="input" type="text" id="nome" placeholder="Seu nome completo">
+        </div>
+
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input class="input" type="email" id="email" placeholder="seuemail@email.com">
+        </div>
+
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <input class="input" type="password" id="senha">
+        </div>
+
+      </fieldset>
+
+      <fieldset>
+        <legend>Preferências</legend>
+
+        <div class="campo">
+          <label for="curso">Curso</label>
+          <select class="input" id="curso">
+            <option>Selecione</option>
+            <option>Engenharia</option>
+            <option>Direito</option>
+            <option>Medicina</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <span>Turno</span>
+
+          <label><input type="radio" name="turno"> Manhã</label>
+          <label><input type="radio" name="turno"> Tarde</label>
+          <label><input type="radio" name="turno"> Noite</label>
+        </div>
+
+      </fieldset>
+
+      <div class="campo">
+        <label>
+          <input type="checkbox">
+          Aceito os termos
+        </label>
+      </div>  
+
+      <div  >
+        <button type="reset">Limpar</button>
+        <button type="submit">Cadastrar</button>
+      </div>
+
+    </form>
+  </main>
+
+</body>
+</html>

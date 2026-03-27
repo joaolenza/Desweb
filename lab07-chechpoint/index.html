@@ -4,94 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <form
-  action="/cadastro"
-  method="post"         
-  autocomplete="on" >
-  <fieldset>
-    <legend>Dados pessoais</legend>
 
-    <label for="nome">Nome completo</label>
-    <input type="text" id="nome" 
-        name="nome" required
-        aria-describedby="nc" 
-        placeholder="Ex.: Gabriel Gandra Brescia">   
-        <p
-        id="nc">
-        Digite o seu nome completo</p>
-    <label for="email">E-mail</label>
-    <input type="email" id="email"
-           name="email" required
-            aria-describedby="em" 
-            placeholder="nome@dominio.com">   
-        <p
-        id="em">
-        Digite o seu e-mail</p>
-    <label for="cpf">CPF</label>
-    <input type="text" id="cpf"
-           name="cpf" required
-           inputmode="numeric"
-            pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
-            aria-describedby="cp"
-            placeholder="000.000.000-00">      
-        <p
-        id="cp">
-        Digite o seu CPF</p>
-    <label for="datanas">Data de nascimento</label>
-    <input type="date" id="datanas"
-           name="datanas" required
-            aria-describedby="dt">   
-        <p
-        id="dt">
-        Escolha a sua data de nascimento</p>
-    </fieldset>
-    <fieldset>
-        <legend>Cursos</legend>
-    <label for="curso">Curso</label>
-    <select id="curso" name="curso" required>
-        <option value="ec">Eng. computação</option>
-        <option value="es">Eng. software</option>
-        <option value="eciv">Eng. civil</option>
-        <option value="ep">Eng. produção</option>
-        <option value="dir">Direito</option>
-        <option value="eco">Economia</option>
-    </select>
-    </fieldset>
-    <fieldset>
-    <legend>Turno</legend>
-    <label>
-        <input type="radio"
-        name="turno"
-        value="manha" required>
-        Manhã
-        
-    </label>
-    <label>
-        <input type="radio"
-        name="turno"
-        value="tarde" required>
-        tarde
-    </label>
-    <label>
-        <input type="radio"
-        name="turno"
-        value="noite" required>
-        noite
-    </label>
-   </fieldset>
-   <fieldset>
-    <legend>Termo de uso</legend>
-     <input type="checkbox" id="termos" name="termos" required>
-    <label for="termos">Aceito os termos</label>
+    <div class="titulo">
+        <h1>Cadastro aluno</h1>
+        <p>João Lenza - treino HTML</p>
+    </div>
 
-   </fieldset>
+    <form action="/cadastro" method="post" autocomplete="on">
+        <fieldset>
+            <legend>Dados pessoais</legend>
+            <div class="campo">
+                <label for="nome">Nome completo</label>
+                <input class="input1"
+                    type="text" 
+                    id="nome" 
+                    name="nome" 
+                    required
+                    aria-describedby="nc" 
+                    placeholder="Ex.: Gabriel Gandra Brescia">
+                <p class="campo1" id="nc">Digite o seu nome completo</p>
+            </div>
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input class="input1"
+                    type="email" 
+                    id="email"
+                    name="email" 
+                    required
+                    aria-describedby="em" 
+                    placeholder="nome@dominio.com">   
+                <p class="campo1" id="em">Digite o seu e-mail</p>
+            </div>
+            <div class="campo">
+                <label for="cpf">CPF</label>
+                <input class="input1"
+                    type="text" 
+                    id="cpf"
+                    name="cpf" 
+                    required
+                    inputmode="numeric"
+                    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
+                    aria-describedby="cp"
+                    title="Formato: 000.000.000-00"
+                    placeholder="000.000.000-00">
+                <p class="campo1" id="cp">Digite o seu CPF</p>
+            </div>
+            <div class="campo">
+                <label for="datanas">Data de nascimento</label>
+                <input class="input1"
+                    type="date" 
+                    id="datanas"
+                    name="datanas" 
+                    required
+                    aria-describedby="dt">
+                <p class="campo1" id="dt">Escolha a sua data de nascimento</p>
+            </div>
+        </fieldset>
 
-   <button type="reset">Limpar</button>
+        <fieldset>
+            <legend>Cursos</legend>
 
+            <div class="campo">
+            <label for="curso">Curso</label>
+            <select id="curso" name="curso" required>
+                <option value="">Selecione um curso</option>
+                <option value="ec">Eng. computação</option>
+                <option value="es">Eng. software</option>
+                <option value="eciv">Eng. civil</option>
+                <option value="ep">Eng. produção</option>
+                <option value="dir">Direito</option>
+                <option value="eco">Economia</option>
+            </select>
+            </div>
+        </fieldset>
 
-  <button type="submit">Cadastrar</button>
-</form>
+        <fieldset>
+            <legend>Turno</legend>
+
+            <label>
+                <input type="radio" name="turno" value="manha" required>
+                Manhã
+            </label>
+
+            <label>
+                <input type="radio" name="turno" value="tarde" required>
+                Tarde
+            </label>
+
+            <label>
+                <input type="radio" name="turno" value="noite" required>
+                Noite
+            </label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Termo de uso</legend>
+
+            <input type="checkbox" id="termos" name="termos" required>
+            <label for="termos">Aceito os termos</label>
+        </fieldset>
+
+        <button type="reset">Limpar</button>
+        <button type="submit">Cadastrar</button>
+    </form>
 </body>
 </html>

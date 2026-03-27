@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Aluno — Ibmec 2026.1</title>
+
+    <!--
+    ╔══════════════════════════════════════════════════════════════╗
+    ║  ATIVIDADE — Estilização de Formulários com CSS3             ║
+    ║  Ibmec BH · Desenvolvimento Web 2026.1 · Aula 08             ║
+    ║  Prof. Cristiano de Macedo Neto, M.Sc                        ║
+    ╠══════════════════════════════════════════════════════════════╣
+    ║  INSTRUÇÕES                                                  ║
+    ║                                                              ║
+    ║  1. Crie um arquivo chamado  style.css  nesta mesma pasta.   ║
+    ║  2. Descomente a linha <link> abaixo para vinculá-lo.        ║
+    ║  3. Siga os 13 passos do guia — cada comentário TODO         ║
+    ║     neste arquivo indica exatamente o que estilizar.         ║
+    ║                                                              ║
+    ║  REGRAS                                                      ║
+    ║  ✗  Nenhum framework CSS (Bootstrap, Tailwind, etc.)         ║
+    ║  ✗  Nenhum atributo style="..." no HTML                      ║
+    ║  ✗  Nenhum !important                                        ║
+    ║  ✗  font-size nunca em px — use rem                          ║
+    ║  ✓  CSS externo somente, via <link> abaixo                   ║
+    ╚══════════════════════════════════════════════════════════════╝
+    -->
+
+    <!-- TODO (Passo 1-2): Descomente a linha abaixo após criar o style.css -->
+    <!-- <link rel="stylesheet" href="style.css"> -->
+
+</head>
+
+<!--
+    TODO (Passo 2): O <body> será estilizado via CSS.
+    Propriedades esperadas: font-family, background, color,
+    min-height, display flex, align-items, justify-content, padding.
+    Não adicione atributos aqui — tudo vai no style.css.
+-->
+<body>
+
+    <!--
+    =====================================================================
+    TODO (Passo 2): Estilize o elemento .form-card.
+    Ele deve ser o card branco centralizado com sombra e bordas arredondadas.
+    Propriedades esperadas: background, width 100%, max-width 640px,
+    border-radius, box-shadow, overflow hidden.
+    =====================================================================
+    -->
+    <div class="form-card">
+
+        <!--
+        TODO (Passo 2): Estilize o cabeçalho .form-card__header.
+        Deve ter fundo azul escuro (#003366), padding generoso e uma
+        borda inferior amarela espessa (4px solid).
+        O <h1> interno deve ser branco e o <p> levemente transparente.
+        -->
+        <div class="form-card__header">
+            <h1>Cadastro de Aluno</h1>
+            <p>Ibmec BH · Desenvolvimento Web 2026.1</p>
+        </div><!-- /form-card__header -->
+
+        <!--
+        TODO (Passo 2): Estilize .form-body com padding generoso (ex: 1.75rem).
+        -->
+        <div class="form-body">
+
+            <!--
+            =================================================================
+            FORMULÁRIO
+            action="#" mantém o envio na própria página para fins de teste.
+            novalidate desativa a validação nativa do browser — você vai
+            criar o feedback visual via CSS (passos 5 e 12).
+            =================================================================
+            -->
+            <form action="#" method="post" novalidate>
+
+                <!-- =========================================================
+                     FIELDSET 1 — DADOS PESSOAIS
+                     TODO (Passo 3): Estilize fieldset e legend.
+                     fieldset: border, border-radius, padding, margin-bottom.
+                     legend: font-size pequeno (.75rem), font-weight 700,
+                     letter-spacing, text-transform uppercase, color azul,
+                     padding horizontal para "abrir" a borda.
+                     ========================================================= -->
+                <fieldset>
+                    <legend>Dados Pessoais</legend>
+
+                    <!-- =====================================================
+                         TODO (Passo 4): Estilize .campo, label e .hint.
+                         .campo: margin-bottom para separar os grupos.
+                         label: display block, font-weight 600, color azul,
+                         font-size .88rem, margin-bottom .3rem.
+                         .req (asterisco de obrigatório): color vermelho.
+                         .hint: display block, font-size .75rem, color cinza,
+                         margin-top .25rem.
+                         ===================================================== -->
+
+                    <!-- Campo: Nome completo (type="text") -->
+                    <!-- TODO (Passo 5): Estilize input[type="text"] -->
+                    <div class="campo">
+                        <label for="nome">
+                            Nome completo
+                            <span class="req" aria-hidden="true">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            placeholder="Ex: Maria da Silva"
+                            autocomplete="name"
+                            required
+                            minlength="3"
+                            aria-required="true"
+                            aria-describedby="nome-hint"
+                        >
+                        <span class="hint" id="nome-hint">Conforme documento oficial</span>
+                    </div><!-- /campo nome -->
+
+                    <!-- Campos lado a lado: E-mail + Telefone -->
+                    <!-- TODO (Passo 2 / bônus): Você pode usar display:grid aqui
+                         para colocar os dois campos lado a lado em telas maiores.
+                         grid-template-columns: 1fr 1fr; gap: .75rem -->
+                    <div class="campos-duplos">
+
+                        <!-- Campo: E-mail (type="email") -->
+                        <!-- TODO (Passo 5): Mesmas regras de input[type="text"].
+                             Bônus: :valid e :invalid com :not(:placeholder-shown) -->
+                        <div class="campo">
+                            <label for="email">
+                                E-mail
+                                <span class="req" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="maria@exemplo.com"
+                                autocomplete="email"
+                                required
+                                aria-required="true"
+                            >
+                        </div><!-- /campo email -->
+
+                        <!-- Campo: Telefone (type="tel") -->
+                        <!-- TODO (Passo 5): type="tel" abre teclado numérico no
+                             mobile. O pattern valida o formato brasileiro. -->
+                        <div class="campo">
+                            <label for="telefone">Telefone</label>
+                            <input
+                                type="tel"
+                                id="telefone"
+                                name="telefone"
+                                placeholder="(31) 99999-9999"
+                                autocomplete="tel"
+                                pattern="\(\d{2}\)\s?\d{4,5}-\d{4}"
+                                title="Formato: (31) 99999-9999"
+                                aria-describedby="tel-hint"
+                            >
+                            <span class="hint" id="tel-hint">Formato: (31) 99999-9999</span>
+                        </div><!-- /campo telefone -->
+
+                    </div><!-- /campos-duplos -->
+
+                    <!-- Campo: Data de nascimento (type="date") -->
+                    <!-- TODO (Passo 11): Estilize input[type="date"].
+                         Mesmas propriedades base dos inputs de texto.
+                         Atenção: font-family precisa ser declarada explicitamente. -->
+                    <div class="campo">
+                        <label for="nascimento">
+                            Data de nascimento
+                            <span class="req" aria-hidden="true">*</span>
+                        </label>
+                        <input
+                            type="date"
+                            id="nascimento"
+                            name="nascimento"
+                            autocomplete="bday"
+                            required
+                            aria-required="true"
+                        >
+                    </div><!-- /campo nascimento -->
+
+                    <!-- Campo: Senha (type="password") -->
+                    <!-- TODO (Passo 12): O .password-wrap usa position:relative
+                         para ancorar o botão de toggle.
+                         O input precisa de padding-right extra para não sobrepor o botão.
+                         O .password-toggle é um <button type="button"> posicionado
+                         em absolute no canto direito.
+                         A .barra-forca e o .forca-fill fazem a barra de progresso
+                         animada. O JavaScript abaixo cuida da lógica. -->
+                    <div class="campo">
+                        <label for="senha">
+                            Senha
+                            <span class="req" aria-hidden="true">*</span>
+                        </label>
+                        <div class="password-wrap">
+                            <input
+                                type="password"
+                                id="senha"
+                                name="senha"
+                                placeholder="Mínimo 8 caracteres"
+                                autocomplete="new-password"
+                                required
+                                minlength="8"
+                                aria-required="true"
+                                aria-describedby="senha-hint"
+                                oninput="atualizarForca(this)"
+                            >
+                            <!--
+                            TODO (Passo 12): Estilize .password-toggle.
+                            position absolute, right .75rem, top 50%,
+                            transform translateY(-50%), sem background nem border,
+                            cursor pointer, color cinza com :hover azul.
+                            -->
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                aria-label="Mostrar ou ocultar senha"
+                                onclick="alternarSenha(this)"
+                            >👁</button>
+                        </div><!-- /password-wrap -->
+                        <!--
+                        TODO (Passo 12): Estilize .barra-forca e .forca-fill.
+                        .barra-forca: height 4px, background cinza claro, border-radius,
+                        margin-top .35rem, overflow hidden.
+                        .forca-fill: height 100%, width 0% inicial, transition de width
+                        e background. A cor muda via JavaScript (veja ao final do arquivo).
+                        -->
+                        <div class="barra-forca" aria-hidden="true">
+                            <div class="forca-fill" id="forca-fill"></div>
+                        </div>
+                        <span class="hint" id="senha-hint">
+                            Use letras, números e símbolos para uma senha forte
+                        </span>
+                    </div><!-- /campo senha -->
+
+                </fieldset>
+                <!-- /fieldset Dados Pessoais -->
+
+                <!-- =========================================================
+                     FIELDSET 2 — DADOS ACADÊMICOS
+                     ========================================================= -->
+                <fieldset>
+                    <legend>Dados Acadêmicos</legend>
+
+                    <!-- Campos lado a lado: Curso + Semestre -->
+                    <div class="campos-duplos campos-duplos--assimetrico">
+
+                        <!-- Campo: Curso (select com optgroup) -->
+                        <!-- TODO (Passo 7): O .select-wrap usa position:relative
+                             para criar a seta customizada via ::after.
+                             O <select> recebe appearance:none para remover a seta nativa.
+                             Atenção: padding-right extra para não cobrir a seta. -->
+                        <div class="campo">
+                            <label for="curso">
+                                Curso
+                                <span class="req" aria-hidden="true">*</span>
+                            </label>
+                            <div class="select-wrap">
+                                <select
+                                    id="curso"
+                                    name="curso"
+                                    required
+                                    aria-required="true"
+                                >
+                                    <option value="">Selecione seu curso...</option>
+                                    <optgroup label="Engenharia">
+                                        <option value="es">Eng. de Software</option>
+                                        <option value="ec">Eng. da Computação</option>
+                                    </optgroup>
+                                    <option value="cd">Ciência de Dados</option>
+                                    <option value="ia">Inteligência Artificial</option>
+                                    <option value="adm">Administração</option>
+                                </select>
+                            </div><!-- /select-wrap -->
+                        </div><!-- /campo curso -->
+
+                        <!-- Campo: Semestre (type="number") -->
+                        <!-- TODO (Passo 11): Estilize input[type="number"].
+                             Remova as setas nativas com ::-webkit-inner-spin-button
+                             e -moz-appearance: textfield. -->
+                        <div class="campo">
+                            <label for="semestre">Semestre</label>
+                            <input
+                                type="number"
+                                id="semestre"
+                                name="semestre"
+                                min="1"
+                                max="10"
+                                step="1"
+                                placeholder="1–10"
+                                aria-describedby="semestre-hint"
+                            >
+                            <span class="hint" id="semestre-hint">Entre 1 e 10</span>
+                        </div><!-- /campo semestre -->
+
+                    </div><!-- /campos-duplos assimetrico -->
+
+                    <!-- Campo: URL do LinkedIn (type="url") -->
+                    <!-- TODO (Passo 5): Mesmas regras dos outros inputs de texto. -->
+                    <div class="campo">
+                        <label for="linkedin">LinkedIn</label>
+                        <input
+                            type="url"
+                            id="linkedin"
+                            name="linkedin"
+                            placeholder="https://linkedin.com/in/seu-perfil"
+                            autocomplete="url"
+                            aria-describedby="linkedin-hint"
+                        >
+                        <span class="hint" id="linkedin-hint">
+                            Inclua https:// no início
+                        </span>
+                    </div><!-- /campo linkedin -->
+
+                    <!-- Campo: Turno preferido (radio group) -->
+                    <!--
+                    TODO (Passo 8): Estilize .radio-group e os labels internos.
+                    .radio-group: display flex, flex-wrap wrap, gap.
+                    Cada label (.radio-group label): display flex, align-items center,
+                    gap, padding, border, border-radius 20px (pill), cursor pointer,
+                    user-select none, transition.
+                    Estados: :hover com background e borda azul.
+                    :has(input:checked) para o estado selecionado.
+                    input[type="radio"]: accent-color azul.
+                    -->
+                    <div class="campo">
+                        <fieldset class="fieldset-inline">
+                            <legend>
+                                Turno preferido
+                                <span class="req" aria-hidden="true">*</span>
+                            </legend>
+                            <div class="radio-group">
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name="turno"
+                                        value="manha"
+                                        required
+                                        aria-required="true"
+                                    >
+                                    Manhã
+                                </label>
+                                <label>
+                                    <input type="radio" name="turno" value="tarde">
+                                    Tarde
+                                </label>
+                                <label>
+                                    <input type="radio" name="turno" value="noite">
+                                    Noite
+                                </label>
+                            </div><!-- /radio-group -->
+                        </fieldset>
+                    </div><!-- /campo turno -->
+
+                    <!-- Campo: Interesses (checkboxes) -->
+                    <!--
+                    TODO (Passo 8): Mesmas regras do radio-group.
+                    .check-group é idêntico ao .radio-group em termos de CSS.
+                    input[type="checkbox"]: accent-color azul.
+                    -->
+                    <div class="campo">
+                        <fieldset class="fieldset-inline">
+                            <legend>Áreas de interesse</legend>
+                            <div class="check-group">
+                                <label>
+                                    <input type="checkbox" name="interesse" value="web">
+                                    Desenvolvimento Web
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="interesse" value="ml">
+                                    Machine Learning
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="interesse" value="dados">
+                                    Análise de Dados
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="interesse" value="cloud">
+                                    Cloud Computing
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="interesse" value="seguranca">
+                                    Segurança
+                                </label>
+                            </div><!-- /check-group -->
+                        </fieldset>
+                    </div><!-- /campo interesses -->
+
+                </fieldset>
+                <!-- /fieldset Dados Acadêmicos -->
+
+                <!-- =========================================================
+                     FIELDSET 3 — CONFIGURAÇÕES E EXTRAS
+                     ========================================================= -->
+                <fieldset>
+                    <legend>Configurações e Extras</legend>
+
+                    <!-- Campos lado a lado: Cor + Range -->
+                    <div class="campos-duplos">
+
+                        <!-- Campo: Cor favorita (type="color") -->
+                        <!--
+                        TODO (Passo 10): Estilize input[type="color"].
+                        width 100%, height 44px, padding mínimo (2px 4px),
+                        border e border-radius consistentes com os outros inputs,
+                        cursor pointer, :focus com box-shadow azul.
+                        -->
+                        <div class="campo">
+                            <label for="cor-favorita">Cor favorita</label>
+                            <input
+                                type="color"
+                                id="cor-favorita"
+                                name="cor_favorita"
+                                value="#003366"
+                            >
+                        </div><!-- /campo cor -->
+
+                        <!-- Campo: Nota de satisfação (type="range") -->
+                        <!--
+                        TODO (Passo 9): Estilize .range-wrap, input[type="range"]
+                        e .range-output.
+                        .range-wrap: display flex, align-items center, gap.
+                        input[type="range"]: flex 1, accent-color azul, height 6px,
+                        cursor pointer.
+                        .range-output: background azul, color branco, font-size pequeno,
+                        font-weight bold, padding, border-radius 12px, min-width,
+                        text-align center.
+                        O oninput abaixo atualiza o <output> ao vivo.
+                        -->
+                        <div class="campo">
+                            <label for="satisfacao">
+                                Nota de satisfação
+                            </label>
+                            <div class="range-wrap">
+                                <input
+                                    type="range"
+                                    id="satisfacao"
+                                    name="satisfacao"
+                                    min="0"
+                                    max="10"
+                                    step="0.5"
+                                    value="7"
+                                    aria-valuemin="0"
+                                    aria-valuemax="10"
+                                    aria-valuenow="7"
+                                    oninput="
+                                        this.setAttribute('aria-valuenow', this.value);
+                                        this.nextElementSibling.value = this.value;
+                                    "
+                                >
+                                <output class="range-output" for="satisfacao">7</output>
+                            </div><!-- /range-wrap -->
+                            <span class="hint">0 = péssimo · 10 = excelente</span>
+                        </div><!-- /campo satisfacao -->
+
+                    </div><!-- /campos-duplos -->
+
+                    <!-- Campo: Upload de foto (type="file") -->
+                    <!--
+                    TODO (Passo 10): O input[type="file"] é escondido
+                    com opacity:0, width:0, height:0, position:absolute.
+                    O .file-label estilizado como área de drop substitui
+                    visualmente o input. Ao clicar no label, o browser
+                    abre o diálogo de seleção de arquivo (comportamento nativo
+                    do for="foto").
+                    .file-label: display flex, align-items center, gap,
+                    border dashed, border-radius, padding, cursor pointer,
+                    color cinza, transition.
+                    :hover: border-color azul, background levemente azulado.
+                    .file-input:focus-visible + .file-label: outline azul
+                    para acessibilidade por teclado.
+                    -->
+                    <div class="campo">
+                        <span class="campo-label">Foto de perfil</span>
+                        <div class="file-wrapper">
+                            <input
+                                type="file"
+                                id="foto"
+                                name="foto"
+                                class="file-input"
+                                accept="image/png, image/jpeg, image/webp"
+                                aria-describedby="foto-hint"
+                            >
+                            <label for="foto" class="file-label">
+                                <span class="file-icon" aria-hidden="true">📎</span>
+                                <span>Clique para selecionar ou arraste aqui</span>
+                            </label>
+                        </div><!-- /file-wrapper -->
+                        <span class="hint" id="foto-hint">
+                            PNG, JPG ou WEBP · máx. 2 MB
+                        </span>
+                    </div><!-- /campo foto -->
+
+                    <!-- Campo: Mensagem livre (textarea) -->
+                    <!--
+                    TODO (Passo 6): Estilize textarea.
+                    Mesmas propriedades base dos inputs de texto.
+                    Adicione: min-height 100px, resize vertical,
+                    line-height 1.55.
+                    ATENÇÃO: font-family NÃO é herdada por textarea —
+                    declare explicitamente.
+                    -->
+                    <div class="campo">
+                        <label for="mensagem">Mensagem ou observações</label>
+                        <textarea
+                            id="mensagem"
+                            name="mensagem"
+                            rows="4"
+                            placeholder="Escreva aqui sua dúvida, sugestão ou comentário..."
+                            aria-describedby="msg-hint"
+                        ></textarea>
+                        <span class="hint" id="msg-hint">Máximo 500 caracteres</span>
+                    </div><!-- /campo mensagem -->
+
+                    <!-- Campo: Aceite dos termos (checkbox isolado) -->
+                    <!--
+                    TODO (Passo 8): Este checkbox não usa o padrão pill
+                    (sem border-radius 20px). Estilize apenas o label
+                    com display flex, align-items center, gap e cursor pointer.
+                    O input[type="checkbox"] recebe accent-color azul.
+                    -->
+                    <div class="campo">
+                        <label class="label-termos">
+                            <input
+                                type="checkbox"
+                                name="termos"
+                                required
+                                aria-required="true"
+                                aria-describedby="termos-hint"
+                            >
+                            Li e aceito os
+                            <a href="#" target="_blank" rel="noopener noreferrer">
+                                termos de uso
+                            </a>
+                            e a
+                            <a href="#" target="_blank" rel="noopener noreferrer">
+                                política de privacidade
+                            </a>
+                        </label>
+                        <span class="hint" id="termos-hint">
+                            Campo obrigatório para prosseguir
+                        </span>
+                    </div><!-- /campo termos -->
+
+                </fieldset>
+                <!-- /fieldset Configurações e Extras -->
+
+                <!-- =========================================================
+                     BOTÕES DE AÇÃO
+                     TODO (Passo 13): Estilize .btn-row, .btn-primary e
+                     .btn-secondary.
+                     .btn-row: display flex, gap, flex-wrap wrap, margin-top.
+                     .btn-primary: flex 1, padding, background azul, color
+                     branco, border none, border-radius, font-family herdada,
+                     font-size 1rem, font-weight bold, cursor pointer,
+                     min-height 44px (WCAG 2.5.5), transition.
+                     :hover: background levemente mais claro.
+                     :active: transform scale(.97).
+                     :focus-visible: outline 3px solid amarelo, offset 3px.
+                     :disabled: opacity .65, cursor not-allowed, background cinza.
+                     .btn-secondary: background transparent, color azul,
+                     border 1.5px solid azul, mesmas dimensões.
+                     :hover: preenche com azul, texto branco.
+                     ========================================================= -->
+                <div class="btn-row">
+                    <button type="submit" class="btn-primary">
+                        Enviar cadastro
+                    </button>
+                    <button type="reset" class="btn-secondary">
+                        Limpar
+                    </button>
+                </div><!-- /btn-row -->
+
+            </form><!-- /form -->
+
+        </div><!-- /form-body -->
+
+    </div><!-- /form-card -->
+
+
+    <!--
+    =====================================================================
+    JAVASCRIPT — Lógica mínima para os controles interativos
+    Não modifique este bloco. A lógica de visual (cores, transições)
+    deve ser implementada no style.css — o JS apenas atualiza classes
+    e atributos que o CSS vai estilizar.
+    =====================================================================
+    -->
+    <script>
+        /* ── Toggle de visibilidade da senha ── */
+        function alternarSenha(botao) {
+            var input = botao.previousElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                botao.textContent = '🙈';
+                botao.setAttribute('aria-label', 'Ocultar senha');
+            } else {
+                input.type = 'password';
+                botao.textContent = '👁';
+                botao.setAttribute('aria-label', 'Mostrar senha');
+            }
+        }
+
+        /* ── Barra de força da senha ──
+           A largura e a cor do .forca-fill mudam via JS.
+           TODO (Passo 12): No CSS, .forca-fill precisa de
+           transition: width .3s ease, background .3s ease
+           para que a animação aconteça suavemente.          */
+        function atualizarForca(input) {
+            var forca = document.getElementById('forca-fill');
+            var valor = input.value;
+            var comprimento = valor.length;
+            var porcentagem = Math.min((comprimento / 12) * 100, 100);
+
+            forca.style.width = porcentagem + '%';
+
+            if (comprimento === 0) {
+                forca.style.background = 'transparent';
+            } else if (comprimento < 4) {
+                forca.style.background = '#e53935'; /* fraca */
+            } else if (comprimento < 8) {
+                forca.style.background = '#ff9800'; /* média-fraca */
+            } else if (comprimento < 12) {
+                forca.style.background = '#fdd835'; /* média-forte */
+            } else {
+                forca.style.background = '#2e7d32'; /* forte */
+            }
+        }
+
+        /* ── Atualiza o <output> do range ao carregar ── */
+        document.addEventListener('DOMContentLoaded', function () {
+            var range = document.getElementById('satisfacao');
+            var output = range.nextElementSibling;
+            output.value = range.value;
+        });
+    </script>
+
+</body>
+</html>

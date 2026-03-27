@@ -1,0 +1,253 @@
+/* RESET PROFISSIONAL */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --primary: #6366f1;
+  --secondary: #22c55e;
+  --danger: #ef4444;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #1f2937;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #020617;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.user-area img {
+  border-radius: 50%;
+}
+
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: calc(100vh - 70px);
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: #020617;
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 1rem;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: 0.2s;
+}
+
+.sidebar li:hover {
+  background: #1e293b;
+  color: white;
+}
+
+.sidebar .active {
+  background: var(--primary);
+  color: white;
+}
+
+/* CONTENT */
+.content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* BANNER */
+.banner {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  padding: 1.5rem;
+  border-radius: 14px;
+}
+
+.banner h1 {
+  font-size: 1.5rem;
+}
+
+.banner p {
+  color: #e0e7ff;
+  margin-top: 0.3rem;
+}
+
+/* PROFILE CARD */
+.profile-card {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+.profile-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.profile-header img {
+  border-radius: 50%;
+}
+
+.profile-text h2 {
+  margin-bottom: 0.2rem;
+}
+
+.profile-text p {
+  color: var(--muted);
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 0.3rem;
+  background: var(--secondary);
+  color: black;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.profile-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin-top: 1rem;
+  gap: 0.5rem;
+  color: var(--muted);
+}
+
+/* STATS */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card);
+  padding: 1.2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+}
+
+.number {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+/* ACTIVITY */
+.activity {
+  background: var(--card);
+  padding: 1.2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.activity ul {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+}
+
+.activity li {
+  margin-bottom: 0.4rem;
+  color: var(--muted);
+}
+
+/* BUTTONS */
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.primary {
+  background: var(--primary);
+  color: white;
+}
+
+.secondary {
+  background: var(--secondary);
+  color: black;
+}
+
+.danger {
+  background: var(--danger);
+  color: white;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+}

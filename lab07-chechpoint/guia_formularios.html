@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Prático — Estilização de Formulários CSS3 | Ibmec</title>
+    <style>
+        /* =====================================================
+           DESIGN TOKENS
+        ===================================================== */
+        :root {
+            --blue:    #003366;
+            --yellow:  #FFCC00;
+            --bg:      #f2f4f8;
+            --surface: #ffffff;
+            --border:  #d0d7e2;
+            --text:    #1a1a2e;
+            --muted:   #6b7280;
+            --red:     #c62828;
+            --green:   #1b5e20;
+            --green-bg:#f0faf0;
+            --red-bg:  #fff5f5;
+            --code-bg: #0f1923;
+
+            --radius:  8px;
+            --shadow:  0 2px 12px rgba(0,51,102,.08);
+            --shadow-hover: 0 6px 24px rgba(0,51,102,.14);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        /* ── Topo ── */
+        .site-header {
+            background: var(--blue);
+            color: #fff;
+            padding: 1.4rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .6rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 4px solid var(--yellow);
+        }
+        .site-header h1 {
+            font-size: clamp(1rem, 2.2vw, 1.3rem);
+            font-weight: 700;
+        }
+        .site-header .subtitle {
+            font-size: .82rem;
+            opacity: .75;
+            font-weight: 400;
+        }
+        .progress-label {
+            font-size: .78rem;
+            background: var(--yellow);
+            color: var(--blue);
+            font-weight: bold;
+            padding: .2rem .8rem;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        /* ── Layout principal ── */
+        .wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* ── Índice lateral ── */
+        .sidebar {
+            position: sticky;
+            top: 86px;
+        }
+        .sidebar-title {
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: .75rem;
+            padding-left: .5rem;
+        }
+        .sidebar nav a {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .45rem .75rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: .85rem;
+            color: var(--text);
+            transition: background .15s, color .15s;
+            margin-bottom: 2px;
+        }
+        .sidebar nav a:hover { background: #e8edf5; }
+        .sidebar nav a.active { background: var(--blue); color: #fff; font-weight: 600; }
+        .sidebar nav a .step-num {
+            background: var(--yellow);
+            color: var(--blue);
+            font-size: .65rem;
+            font-weight: 800;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .sidebar nav a.active .step-num { background: var(--yellow); }
+
+        /* ── Conteúdo principal ── */
+        .main-content { min-width: 0; }
+
+        /* ── Intro card ── */
+        .intro-card {
+            background: var(--blue);
+            color: #fff;
+            padding: 2rem 2.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 2.5rem;
+            border-left: 6px solid var(--yellow);
+        }
+        .intro-card h2 { font-size: clamp(1.3rem, 2.5vw, 1.7rem); margin-bottom: .6rem; }
+        .intro-card p  { opacity: .85; font-size: .95rem; line-height: 1.7; }
+        .intro-card .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+        .tag-pill {
+            background: rgba(255,204,0,.2);
+            color: var(--yellow);
+            font-size: .72rem;
+            font-weight: 700;
+            padding: .2rem .65rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,204,0,.3);
+        }
+
+        /* ── Seção de passo ── */
+        .step-section {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            scroll-margin-top: 100px;
+        }
+
+        .step-header {
+            padding: 1.25rem 1.75rem;
+            background: var(--blue);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .step-badge {
+            background: var(--yellow);
+            color: var(--blue);
+            font-size: .7rem;
+            font-weight: 900;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            letter-spacing: .02em;
+        }
+        .step-header h2 {
+            color: #fff;
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            font-weight: 700;
+        }
+        .step-header .step-target {
+            margin-left: auto;
+            font-size: .72rem;
+            background: rgba(255,255,255,.12);
+            color: rgba(255,255,255,.8);
+            padding: .2rem .6rem;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .step-body { padding: 1.75rem; }
+
+        .step-body p { margin-bottom: 1rem; color: #2c3e50; }
+        .step-body h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--blue);
+            margin: 1.25rem 0 .5rem;
+            padding-left: .75rem;
+            border-left: 3px solid var(--yellow);
+        }
+
+        /* ── Layout de duas colunas dentro de passo ── */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1rem 0;
+            align-items: start;
+        }
+
+        /* ── Bloco de código ── */
+        .code-wrap {
+            background: var(--code-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: .75rem 0;
+            border-left: 4px solid var(--yellow);
+        }
+        .code-label {
+            background: rgba(255,204,0,.12);
+            color: var(--yellow);
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            padding: .35rem 1rem;
+            border-bottom: 1px solid rgba(255,204,0,.15);
+        }
+        .code-wrap pre {
+            padding: 1rem 1.25rem;
+            overflow-x: auto;
+            margin: 0;
+        }
+        .code-wrap code {
+            font-family: 'Consolas', 'Cascadia Code', monospace;
+            font-size: .82rem;
+            line-height: 1.7;
+            color: #d4d4d4;
+        }
+        /* syntax */
+        .cs  { color: #d7ba7d; } /* seletor */
+        .cp  { color: #9cdcfe; } /* propriedade */
+        .cv  { color: #ce9178; } /* valor */
+        .cn  { color: #b5cea8; } /* número */
+        .cc  { color: #6a9955; font-style: italic; } /* comentário */
+        .ht  { color: #569cd6; } /* tag html */
+        .ha  { color: #9cdcfe; } /* atributo html */
+        .hv  { color: #ce9178; } /* valor html */
+
+        /* ── Preview do formulário ── */
+        .preview-wrap {
+            background: #e8edf5;
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            border: 2px dashed var(--border);
+        }
+        .preview-label {
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: .75rem;
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+        }
+        .preview-label::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4caf50;
+            border-radius: 50%;
+        }
+
+        /* ── Caixas de aviso ── */
+        .box {
+            padding: 1rem 1.25rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-size: .9rem;
+            line-height: 1.6;
+        }
+        .box-tip   { background: #fff8e1; border-left: 4px solid var(--yellow); }
+        .box-warn  { background: var(--red-bg); border-left: 4px solid var(--red); }
+        .box-ok    { background: var(--green-bg); border-left: 4px solid var(--green); }
+        .box-info  { background: #e8edf5; border-left: 4px solid var(--blue); }
+        .box strong { display: block; margin-bottom: .25rem; }
+        .box-tip strong  { color: #7c5e00; }
+        .box-warn strong { color: var(--red); }
+        .box-ok strong   { color: var(--green); }
+        .box-info strong { color: var(--blue); }
+
+        /* ── Checklist ── */
+        .checklist { list-style: none; margin: .75rem 0; }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: .6rem;
+            font-size: .88rem;
+            padding: .3rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .checklist li:last-child { border: none; }
+        .checklist li::before {
+            content: '☐';
+            font-size: 1rem;
+            color: var(--blue);
+            flex-shrink: 0;
+            margin-top: .05rem;
+        }
+
+        /* ── Comparação ── */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .compare-item { }
+        .compare-item .clabel {
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            margin-bottom: .35rem;
+        }
+        .clabel.bad  { color: var(--red); }
+        .clabel.good { color: var(--green); }
+
+        /* ══════════════════════════════════════════════════
+           FORMULÁRIO DE DEMONSTRAÇÃO — estado final
+           Cada passo progressivamente "liga" classes abaixo
+        ══════════════════════════════════════════════════ */
+
+        /* PASSO 1: reset + vars */
+        .demo-form-wrap {
+            --f-blue:   #003366;
+            --f-yellow: #FFCC00;
+            --f-bg:     #f8fafc;
+            --f-surf:   #ffffff;
+            --f-border: #c8d0dc;
+            --f-text:   #1a1a2e;
+            --f-muted:  #6b7280;
+            --f-red:    #c62828;
+            --f-green:  #2e7d32;
+            --f-radius: 6px;
+            --f-font:   'Segoe UI', system-ui, sans-serif;
+        }
+
+        /* PASSO 2: body + container */
+        .demo-form-wrap {
+            background: var(--f-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            font-family: var(--f-font);
+            font-size: 1rem;
+            color: var(--f-text);
+        }
+        .demo-card {
+            background: var(--f-surf);
+            max-width: 100%;
+            border-radius: var(--f-radius);
+            box-shadow: 0 4px 20px rgba(0,51,102,.1);
+            overflow: hidden;
+        }
+        .demo-card-header {
+            background: var(--f-blue);
+            padding: 1.2rem 1.5rem;
+            border-bottom: 4px solid var(--f-yellow);
+        }
+        .demo-card-header h3 {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .demo-card-header p {
+            color: rgba(255,255,255,.7);
+            font-size: .82rem;
+            margin: .25rem 0 0;
+        }
+        .demo-form { padding: 1.5rem; }
+
+        /* PASSO 3: fieldset + legend */
+        .demo-fieldset {
+            border: 1px solid var(--f-border);
+            border-radius: var(--f-radius);
+            padding: 1.1rem 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        .demo-fieldset + .demo-fieldset { }
+        .demo-legend {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--f-blue);
+            padding: 0 .5rem;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+        }
+
+        /* PASSO 4: grupos de campo */
+        .demo-field {
+            margin-bottom: 1rem;
+        }
+        .demo-field:last-child { margin-bottom: 0; }
+        .demo-label {
+            display: block;
+            font-size: .84rem;
+            font-weight: 600;
+            color: var(--f-blue);
+            margin-bottom: .3rem;
+        }
+        .demo-label .req {
+            color: var(--f-red);
+            margin-left: .15rem;
+        }
+        .demo-hint {
+            font-size: .75rem;
+            color: var(--f-muted);
+            margin-top: .25rem;
+            display: block;
+        }
+
+        /* PASSO 5: inputs de texto */
+        .demo-input,
+        .demo-textarea,
+        .demo-select {
+            width: 100%;
+            padding: .55rem .85rem;
+            border: 1.5px solid var(--f-border);
+            border-radius: var(--f-radius);
+            font-family: var(--f-font);
+            font-size: .95rem;
+            color: var(--f-text);
+            background: var(--f-surf);
+            transition: border-color .2s ease, box-shadow .2s ease;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        .demo-input::placeholder,
+        .demo-textarea::placeholder { color: var(--f-muted); font-size: .88rem; }
+        .demo-input:hover,
+        .demo-textarea:hover,
+        .demo-select:hover { border-color: #9bb0cc; }
+        .demo-input:focus,
+        .demo-textarea:focus,
+        .demo-select:focus {
+            outline: none;
+            border-color: var(--f-blue);
+            box-shadow: 0 0 0 3px rgba(0,51,102,.15);
+        }
+        .demo-input:invalid:not(:placeholder-shown) { border-color: var(--f-red); box-shadow: 0 0 0 3px rgba(198,40,40,.12); }
+        .demo-input:valid:not(:placeholder-shown)   { border-color: var(--f-green); }
+
+        /* PASSO 6: textarea */
+        .demo-textarea {
+            min-height: 90px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        /* PASSO 7: select customizado */
+        .demo-select-wrap {
+            position: relative;
+        }
+        .demo-select-wrap::after {
+            content: '▾';
+            position: absolute;
+            right: .85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--f-blue);
+            pointer-events: none;
+            font-size: .85rem;
+        }
+        .demo-select { padding-right: 2.5rem; cursor: pointer; }
+
+        /* PASSO 8: radio e checkbox */
+        .demo-radio-group,
+        .demo-check-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem .75rem;
+            margin-top: .25rem;
+        }
+        .demo-radio-label,
+        .demo-check-label {
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+            font-size: .88rem;
+            cursor: pointer;
+            padding: .4rem .75rem;
+            border: 1.5px solid var(--f-border);
+            border-radius: 20px;
+            transition: border-color .2s, background .2s;
+            user-select: none;
+        }
+        .demo-radio-label:hover,
+        .demo-check-label:hover {
+            border-color: var(--f-blue);
+            background: #e8edf5;
+        }
+        .demo-radio-label input,
+        .demo-check-label input { accent-color: var(--f-blue); width: 15px; height: 15px; cursor: pointer; }
+        .demo-radio-label:has(input:checked),
+        .demo-check-label:has(input:checked) {
+            border-color: var(--f-blue);
+            background: #e8edf5;
+            font-weight: 600;
+        }
+
+        /* PASSO 9: range */
+        .demo-range-wrap {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+        .demo-range {
+            flex: 1;
+            accent-color: var(--f-blue);
+            height: 6px;
+            cursor: pointer;
+        }
+        .demo-range-value {
+            background: var(--f-blue);
+            color: #fff;
+            font-size: .78rem;
+            font-weight: 700;
+            padding: .15rem .5rem;
+            border-radius: 12px;
+            min-width: 36px;
+            text-align: center;
+        }
+
+        /* PASSO 10: input[type=color] e input[type=file] */
+        .demo-input-color {
+            width: 100%;
+            height: 44px;
+            padding: 2px 4px;
+            border: 1.5px solid var(--f-border);
+            border-radius: var(--f-radius);
+            background: var(--f-surf);
+            cursor: pointer;
+            transition: border-color .2s;
+        }
+        .demo-input-color:focus { outline: none; border-color: var(--f-blue); box-shadow: 0 0 0 3px rgba(0,51,102,.15); }
+        .demo-file-label {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            border: 1.5px dashed var(--f-border);
+            border-radius: var(--f-radius);
+            padding: .65rem .85rem;
+            font-size: .88rem;
+            color: var(--f-muted);
+            cursor: pointer;
+            transition: border-color .2s, background .2s;
+        }
+        .demo-file-label:hover { border-color: var(--f-blue); background: #e8edf5; color: var(--f-blue); }
+        .demo-file-label span.icon { font-size: 1.1rem; }
+        .demo-file-input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+        /* PASSO 11: data / número */
+        .demo-input-date,
+        .demo-input-number {
+            width: 100%;
+            padding: .55rem .85rem;
+            border: 1.5px solid var(--f-border);
+            border-radius: var(--f-radius);
+            font-family: var(--f-font);
+            font-size: .95rem;
+            color: var(--f-text);
+            background: var(--f-surf);
+            transition: border-color .2s, box-shadow .2s;
+            appearance: none;
+        }
+        .demo-input-date:focus,
+        .demo-input-number:focus {
+            outline: none;
+            border-color: var(--f-blue);
+            box-shadow: 0 0 0 3px rgba(0,51,102,.15);
+        }
+
+        /* PASSO 12: barra de senha */
+        .demo-password-wrap { position: relative; }
+        .demo-password-toggle {
+            position: absolute;
+            right: .75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--f-muted);
+            font-size: .85rem;
+            padding: .2rem;
+            line-height: 1;
+        }
+        .demo-strength-bar {
+            height: 4px;
+            border-radius: 2px;
+            background: #e0e0e0;
+            margin-top: .35rem;
+            overflow: hidden;
+        }
+        .demo-strength-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 2px;
+            background: var(--f-green);
+            transition: width .3s ease, background .3s ease;
+        }
+
+        /* PASSO 13: grupo de botões */
+        .demo-btn-row {
+            display: flex;
+            gap: .75rem;
+            flex-wrap: wrap;
+            margin-top: 1.25rem;
+        }
+        .demo-btn-primary {
+            flex: 1;
+            padding: .75rem 1.5rem;
+            background: var(--f-blue);
+            color: #fff;
+            border: none;
+            border-radius: var(--f-radius);
+            font-family: var(--f-font);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .2s, transform .12s;
+        }
+        .demo-btn-primary:hover { background: #00509e; }
+        .demo-btn-primary:active { transform: scale(.97); }
+        .demo-btn-primary:focus-visible { outline: 3px solid var(--f-yellow); outline-offset: 3px; }
+
+        .demo-btn-secondary {
+            padding: .75rem 1.25rem;
+            background: transparent;
+            color: var(--f-blue);
+            border: 1.5px solid var(--f-blue);
+            border-radius: var(--f-radius);
+            font-family: var(--f-font);
+            font-size: .95rem;
+            cursor: pointer;
+            transition: background .2s, color .2s;
+        }
+        .demo-btn-secondary:hover { background: var(--f-blue); color: #fff; }
+        .demo-btn-secondary:focus-visible { outline: 3px solid var(--f-yellow); outline-offset: 3px; }
+
+        /* ── Separador de seção ── */
+        .section-divider {
+            text-align: center;
+            margin: 2.5rem 0 1.5rem;
+            position: relative;
+        }
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; top: 50%;
+            height: 1px;
+            background: var(--border);
+        }
+        .section-divider span {
+            position: relative;
+            background: var(--bg);
+            padding: 0 1rem;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .wrapper { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .two-col, .compare-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 540px) {
+            .site-header { padding: 1rem; }
+            .step-body { padding: 1.25rem; }
+            .demo-form { padding: 1rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition: none !important; animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Cabeçalho ── -->
+<header class="site-header">
+    <div>
+        <h1>Estilização de Formulários com CSS3</h1>
+        <div class="subtitle">Ibmec BH · Desenvolvimento Web 2026.1 · Aula 08</div>
+    </div>
+    <span class="progress-label" id="progress-label">Passo 1 de 13</span>
+</header>
+
+<div class="wrapper">
+
+    <!-- ══ Sidebar ══ -->
+    <aside class="sidebar">
+        <p class="sidebar-title">Roteiro</p>
+        <nav id="step-nav">
+            <a href="#passo1" class="active"><span class="step-num">1</span>Reset e variáveis</a>
+            <a href="#passo2"><span class="step-num">2</span>Container e card</a>
+            <a href="#passo3"><span class="step-num">3</span>Fieldset e legend</a>
+            <a href="#passo4"><span class="step-num">4</span>Label e grupo de campo</a>
+            <a href="#passo5"><span class="step-num">5</span>Inputs de texto</a>
+            <a href="#passo6"><span class="step-num">6</span>Textarea</a>
+            <a href="#passo7"><span class="step-num">7</span>Select customizado</a>
+            <a href="#passo8"><span class="step-num">8</span>Radio e Checkbox</a>
+            <a href="#passo9"><span class="step-num">9</span>Range (slider)</a>
+            <a href="#passo10"><span class="step-num">10</span>Color e File</a>
+            <a href="#passo11"><span class="step-num">11</span>Date e Number</a>
+            <a href="#passo12"><span class="step-num">12</span>Password com força</a>
+            <a href="#passo13"><span class="step-num">13</span>Botões e foco</a>
+        </nav>
+    </aside>
+
+    <!-- ══ Conteúdo ══ -->
+    <main class="main-content">
+
+        <!-- Intro -->
+        <div class="intro-card">
+            <h2>Formulário do zero ao produto final</h2>
+            <p>Este guia percorre 13 passos progressivos de estilização. Em cada passo você verá o CSS que deve escrever, uma explicação técnica e um preview ao vivo do resultado. Ao final, o formulário cobre os principais tipos de controle HTML5 com aparência profissional e acessível.</p>
+            <div class="tags">
+                <span class="tag-pill">CSS3 puro</span>
+                <span class="tag-pill">Sem frameworks</span>
+                <span class="tag-pill">WCAG 2.2</span>
+                <span class="tag-pill">box-sizing reset</span>
+                <span class="tag-pill">custom properties</span>
+                <span class="tag-pill">Pseudo-classes</span>
+                <span class="tag-pill">:focus-visible</span>
+                <span class="tag-pill">accent-color</span>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 1 — Reset e variáveis
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo1">
+            <div class="step-header">
+                <span class="step-badge">01</span>
+                <h2>Reset global e custom properties</h2>
+                <span class="step-target">style.css — primeiras linhas</span>
+            </div>
+            <div class="step-body">
+                <p>Antes de qualquer regra visual, duas coisas precisam acontecer: o browser precisa ser "zerado" para um comportamento previsível, e a paleta de cores/tamanhos precisa virar variável. Isso evita que você repita valores como <code>#003366</code> em quinze lugares diferentes — quando a cor muda, você altera um único ponto.</p>
+
+                <div class="two-col">
+                    <div>
+                        <h3>CSS para escrever</h3>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cc">/* ===========================
+   RESET + CUSTOM PROPERTIES
+   =========================== */</span>
+
+<span class="cs">*, *::before, *::after</span> {
+  <span class="cp">box-sizing</span>: <span class="cv">border-box</span>;
+  <span class="cp">margin</span>: <span class="cn">0</span>;
+  <span class="cp">padding</span>: <span class="cn">0</span>;
+}
+
+<span class="cs">:root</span> {
+  <span class="cc">/* Cores */</span>
+  <span class="cp">--cor-principal</span>: <span class="cv">#003366</span>;
+  <span class="cp">--cor-destaque</span>:  <span class="cv">#FFCC00</span>;
+  <span class="cp">--cor-texto</span>:     <span class="cv">#1a1a2e</span>;
+  <span class="cp">--cor-fundo</span>:     <span class="cv">#f8fafc</span>;
+  <span class="cp">--cor-superficie</span>:<span class="cv">#ffffff</span>;
+  <span class="cp">--cor-borda</span>:     <span class="cv">#c8d0dc</span>;
+  <span class="cp">--cor-erro</span>:      <span class="cv">#c62828</span>;
+  <span class="cp">--cor-sucesso</span>:   <span class="cv">#2e7d32</span>;
+  <span class="cp">--cor-muted</span>:     <span class="cv">#6b7280</span>;
+
+  <span class="cc">/* Tipografia */</span>
+  <span class="cp">--fonte</span>: <span class="cv">'Segoe UI', system-ui, sans-serif</span>;
+
+  <span class="cc">/* Geometria */</span>
+  <span class="cp">--raio</span>: <span class="cv">6px</span>;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="box box-info">
+                            <strong>Por que box-sizing: border-box?</strong>
+                            Com <code>content-box</code> (padrão), um input com <code>width: 100%</code> e <code>padding: 10px</code> ultrapassa o container. Com <code>border-box</code>, padding e border são absorvidos pela largura declarada — o input fica exatamente no espaço esperado.
+                        </div>
+                        <div class="box box-tip">
+                            <strong>Por que custom properties no :root?</strong>
+                            Declaradas em <code>:root</code>, as variáveis ficam disponíveis em todo o documento. Elas são herdadas, podem ser sobrescritas por seletores filhos (dark mode!) e respondem a media queries — algo impossível com variáveis de pré-processadores estáticos.
+                        </div>
+                        <div class="box box-warn">
+                            <strong>Cuidado com o margin: 0 global</strong>
+                            O reset zera margin e padding de todos os elementos. Você vai precisar adicionar espaçamento de volta via <code>margin-bottom</code> em parágrafos e grupos de campo — de forma intencional, não acidental.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 2 — Container e card
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo2">
+            <div class="step-header">
+                <span class="step-badge">02</span>
+                <h2>Container do formulário e card visual</h2>
+                <span class="step-target">body + .form-card</span>
+            </div>
+            <div class="step-body">
+                <p>O formulário precisa de um "embrulho" que centralize, limite a largura e dê profundidade visual. Um cabeçalho colorido reforça identidade e separa o título dos campos.</p>
+
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cs">body</span> {
+  <span class="cp">font-family</span>: <span class="cv">var(--fonte)</span>;
+  <span class="cp">background</span>:  <span class="cv">var(--cor-fundo)</span>;
+  <span class="cp">color</span>:       <span class="cv">var(--cor-texto)</span>;
+  <span class="cp">min-height</span>:  <span class="cv">100dvh</span>;
+  <span class="cp">display</span>:     <span class="cv">flex</span>;
+  <span class="cp">align-items</span>: <span class="cv">flex-start</span>;
+  <span class="cp">justify-content</span>: <span class="cv">center</span>;
+  <span class="cp">padding</span>: <span class="cv">2rem 1rem</span>;
+}
+
+<span class="cs">.form-card</span> {
+  <span class="cp">background</span>:    <span class="cv">var(--cor-superficie)</span>;
+  <span class="cp">width</span>:         <span class="cv">100%</span>;
+  <span class="cp">max-width</span>:     <span class="cv">640px</span>;
+  <span class="cp">border-radius</span>: <span class="cv">var(--raio)</span>;
+  <span class="cp">box-shadow</span>: <span class="cv">0 4px 24px rgba(0,51,102,.1)</span>;
+  <span class="cp">overflow</span>: <span class="cv">hidden</span>;
+}
+
+<span class="cs">.form-card__header</span> {
+  <span class="cp">background</span>:    <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">padding</span>:       <span class="cv">1.4rem 1.75rem</span>;
+  <span class="cp">border-bottom</span>: <span class="cv">4px solid var(--cor-destaque)</span>;
+}
+<span class="cs">.form-card__header h1</span> {
+  <span class="cp">color</span>: <span class="cv">#fff</span>;
+  <span class="cp">font-size</span>: <span class="cv">1.25rem</span>;
+  <span class="cp">font-weight</span>: <span class="cv">700</span>;
+}
+<span class="cs">.form-card__header p</span> {
+  <span class="cp">color</span>: <span class="cv">rgba(255,255,255,.7)</span>;
+  <span class="cp">font-size</span>: <span class="cv">.85rem</span>;
+  <span class="cp">margin-top</span>: <span class="cv">.25rem</span>;
+}
+
+<span class="cs">.form-body</span> {
+  <span class="cp">padding</span>: <span class="cv">1.75rem</span>;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-card-header">
+                                        <h3>Cadastro de Aluno</h3>
+                                        <p>Preencha todos os campos obrigatórios</p>
+                                    </div>
+                                    <div class="demo-form">
+                                        <p style="color:var(--f-muted); font-size:.85rem; text-align:center; padding: 1rem 0;">↓ Os campos aparecem nos próximos passos</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-tip" style="margin-top:1rem;">
+                            <strong>100dvh e o iOS Safari</strong>
+                            A unidade <code>dvh</code> (dynamic viewport height) leva em conta a barra de URL do Safari móvel, que aparece e desaparece durante o scroll. A versão <code>vh</code> ignora esse comportamento e causa overflow indesejado.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 3 — Fieldset e legend
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo3">
+            <div class="step-header">
+                <span class="step-badge">03</span>
+                <h2>Fieldset e legend — agrupando campos</h2>
+                <span class="step-target">fieldset · legend</span>
+            </div>
+            <div class="step-body">
+                <p>O <code>&lt;fieldset&gt;</code> tem uma borda padrão feia do browser e o <code>&lt;legend&gt;</code> uma tipografia inconsistente. A boa notícia: ambos são sobrescritos facilmente. O padrão de borda + legenda uppercase é usado em produtos como o GitHub e o Notion.</p>
+
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cs">fieldset</span> {
+  <span class="cp">border</span>:         <span class="cv">1px solid var(--cor-borda)</span>;
+  <span class="cp">border-radius</span>:  <span class="cv">var(--raio)</span>;
+  <span class="cp">padding</span>:        <span class="cv">1.1rem 1.25rem</span>;
+  <span class="cp">margin-bottom</span>:  <span class="cv">1.5rem</span>;
+}
+<span class="cc">/* Remove a borda padrão do último
+   fieldset antes dos botões */</span>
+<span class="cs">fieldset:last-of-type</span> {
+  <span class="cp">margin-bottom</span>: <span class="cv">0</span>;
+}
+
+<span class="cs">legend</span> {
+  <span class="cp">font-size</span>:      <span class="cv">.75rem</span>;
+  <span class="cp">font-weight</span>:    <span class="cv">700</span>;
+  <span class="cp">letter-spacing</span>: <span class="cv">.08em</span>;
+  <span class="cp">text-transform</span>: <span class="cv">uppercase</span>;
+  <span class="cp">color</span>:          <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">padding</span>:        <span class="cv">0 .5rem</span>;
+}</code></pre>
+                        </div>
+                        <div class="box box-info" style="margin-top:.75rem;">
+                            <strong>Como o legend funciona no DOM</strong>
+                            O <code>&lt;legend&gt;</code> é um filho especial do fieldset — ele "flutua" para cima da borda superior. O <code>padding: 0 .5rem</code> cria o espaçamento que faz a borda "abrir" em torno do texto.
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-card-header">
+                                        <h3>Cadastro de Aluno</h3>
+                                    </div>
+                                    <div class="demo-form">
+                                        <fieldset class="demo-fieldset">
+                                            <legend class="demo-legend">Dados Pessoais</legend>
+                                            <p style="color:var(--f-muted); font-size:.82rem; padding:.5rem 0;">Campos aparecem no próximo passo</p>
+                                        </fieldset>
+                                        <fieldset class="demo-fieldset">
+                                            <legend class="demo-legend">Preferências</legend>
+                                            <p style="color:var(--f-muted); font-size:.82rem; padding:.5rem 0;">Campos aparecem no próximo passo</p>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-tip" style="margin-top:1rem;">
+                            <strong>WCAG e fieldset</strong>
+                            Leitores de tela anunciam o texto do legend antes de cada campo do grupo: <em>"Dados Pessoais — Nome completo — editar texto"</em>. Sem o fieldset, o usuário ouve apenas "Nome completo" sem saber a qual seção pertence.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 4 — Label e grupo de campo
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo4">
+            <div class="step-header">
+                <span class="step-badge">04</span>
+                <h2>Label, grupo de campo e hint</h2>
+                <span class="step-target">label · .campo · .hint</span>
+            </div>
+            <div class="step-body">
+                <p>Cada campo precisa de três camadas: o <code>&lt;label&gt;</code> descritivo, o controle em si, e opcionalmente um texto auxiliar (<em>hint</em>). O espaçamento vertical correto entre esses três elementos define o ritmo de leitura do formulário.</p>
+
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cs">.campo</span> {
+  <span class="cp">margin-bottom</span>: <span class="cv">1rem</span>;
+}
+<span class="cs">.campo:last-child</span> {
+  <span class="cp">margin-bottom</span>: <span class="cv">0</span>;
+}
+
+<span class="cs">label</span> {
+  <span class="cp">display</span>:      <span class="cv">block</span>; <span class="cc">/* ocupa linha inteira */</span>
+  <span class="cp">font-size</span>:    <span class="cv">.88rem</span>;
+  <span class="cp">font-weight</span>:  <span class="cv">600</span>;
+  <span class="cp">color</span>:        <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">margin-bottom</span>:<span class="cv">.3rem</span>;
+}
+<span class="cs">label .req</span> {
+  <span class="cp">color</span>: <span class="cv">var(--cor-erro)</span>;
+  <span class="cp">margin-left</span>: <span class="cv">.1rem</span>;
+  <span class="cp">font-weight</span>: <span class="cv">700</span>;
+}
+
+<span class="cs">.hint</span> {
+  <span class="cp">display</span>:   <span class="cv">block</span>;
+  <span class="cp">font-size</span>: <span class="cv">.75rem</span>;
+  <span class="cp">color</span>:     <span class="cv">var(--cor-muted)</span>;
+  <span class="cp">margin-top</span>:<span class="cv">.25rem</span>;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview — estrutura do label</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-form">
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="prev-nome">Nome completo<span class="req">*</span></label>
+                                            <div style="height:38px; background:#f0f0f0; border:1.5px solid #c8d0dc; border-radius:6px;"></div>
+                                            <span class="demo-hint">Conforme documento oficial</span>
+                                        </div>
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="prev-email">E-mail<span class="req">*</span></label>
+                                            <div style="height:38px; background:#f0f0f0; border:1.5px solid #c8d0dc; border-radius:6px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-warn" style="margin-top:1rem;">
+                            <strong>label display: block é obrigatório</strong>
+                            Sem <code>display: block</code>, o label fica inline e o input aparece ao lado dele na mesma linha, não embaixo. Leitores de tela ainda funcionam, mas o layout quebra visualmente.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 5 — Inputs de texto
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo5">
+            <div class="step-header">
+                <span class="step-badge">05</span>
+                <h2>Inputs de texto — text, email, tel, url, search</h2>
+                <span class="step-target">input[type=text] · :hover · :focus · :valid · :invalid</span>
+            </div>
+            <div class="step-body">
+                <p>Estes cinco tipos compartilham a mesma aparência — o browser os diferencia internamente pelo teclado mobile e pela validação. Um único bloco CSS cobre todos, com pseudo-classes para os estados interativos.</p>
+
+                <h3>CSS para escrever</h3>
+                <div class="code-wrap">
+                    <div class="code-label">style.css</div>
+                    <pre><code><span class="cs">input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="search"]</span> {
+  <span class="cp">width</span>:       <span class="cv">100%</span>;
+  <span class="cp">padding</span>:     <span class="cv">.55rem .85rem</span>;
+  <span class="cp">border</span>:      <span class="cv">1.5px solid var(--cor-borda)</span>;
+  <span class="cp">border-radius</span>:<span class="cv">var(--raio)</span>;
+  <span class="cp">font-family</span>: <span class="cv">var(--fonte)</span>;
+  <span class="cp">font-size</span>:   <span class="cv">1rem</span>;
+  <span class="cp">color</span>:       <span class="cv">var(--cor-texto)</span>;
+  <span class="cp">background</span>:  <span class="cv">var(--cor-superficie)</span>;
+  <span class="cp">transition</span>:  <span class="cv">border-color .2s ease,
+               box-shadow .2s ease</span>;
+}
+
+<span class="cc">/* Estado hover — sinaliza interatividade */</span>
+<span class="cs">input[type="text"]:hover</span>,
+<span class="cs">input[type="email"]:hover</span> <span class="cc">/* ... */</span> {
+  <span class="cp">border-color</span>: <span class="cv">#9bb0cc</span>;
+}
+
+<span class="cc">/* Foco — WCAG 2.4.7 exige visibilidade */</span>
+<span class="cs">input[type="text"]:focus</span>,
+<span class="cs">input[type="email"]:focus</span> <span class="cc">/* ... */</span> {
+  <span class="cp">outline</span>:      <span class="cv">none</span>;
+  <span class="cp">border-color</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">box-shadow</span>:   <span class="cv">0 0 0 3px rgba(0,51,102,.15)</span>;
+}
+
+<span class="cc">/* Validação visual nativa */</span>
+<span class="cs">input:invalid:not(:placeholder-shown)</span> {
+  <span class="cp">border-color</span>: <span class="cv">var(--cor-erro)</span>;
+  <span class="cp">box-shadow</span>:   <span class="cv">0 0 0 3px rgba(198,40,40,.12)</span>;
+}
+<span class="cs">input:valid:not(:placeholder-shown)</span> {
+  <span class="cp">border-color</span>: <span class="cv">var(--cor-sucesso)</span>;
+}</code></pre>
+                </div>
+
+                <div class="two-col" style="margin-top:1.25rem;">
+                    <div>
+                        <div class="box box-info">
+                            <strong>Por que :not(:placeholder-shown)?</strong>
+                            Sem esse qualificador, um campo <code>required</code> vazio aparece imediatamente como :invalid — assim que a página carrega, antes do usuário digitar qualquer coisa. <code>:not(:placeholder-shown)</code> garante que o feedback de erro só apareça depois que o campo foi tocado.
+                        </div>
+                        <div class="box box-tip" style="margin-top:.75rem;">
+                            <strong>box-shadow como anel de foco</strong>
+                            Usar <code>box-shadow: 0 0 0 3px</code> em vez de <code>outline</code> permite controle total de cor e tamanho, além de respeitar o border-radius do elemento. O <code>outline: none</code> é seguro aqui porque estamos fornecendo um substituto visível.
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview — experimente interagir</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-form">
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="ex-nome">Nome completo<span class="req">*</span></label>
+                                            <input class="demo-input" type="text" id="ex-nome" name="nome" placeholder="Ex: Maria Silva" required>
+                                        </div>
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="ex-email">E-mail<span class="req">*</span></label>
+                                            <input class="demo-input" type="email" id="ex-email" name="email" placeholder="maria@exemplo.com" required>
+                                            <span class="demo-hint">Borda vermelha = inválido, verde = válido</span>
+                                        </div>
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="ex-tel">Telefone</label>
+                                            <input class="demo-input" type="tel" id="ex-tel" name="tel" placeholder="(31) 99999-9999">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 6 — Textarea
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo6">
+            <div class="step-header">
+                <span class="step-badge">06</span>
+                <h2>Textarea — área de texto livre</h2>
+                <span class="step-target">textarea · resize</span>
+            </div>
+            <div class="step-body">
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cs">textarea</span> {
+  <span class="cp">width</span>:       <span class="cv">100%</span>;
+  <span class="cp">padding</span>:     <span class="cv">.55rem .85rem</span>;
+  <span class="cp">border</span>:      <span class="cv">1.5px solid var(--cor-borda)</span>;
+  <span class="cp">border-radius</span>:<span class="cv">var(--raio)</span>;
+  <span class="cp">font-family</span>: <span class="cv">var(--fonte)</span>; <span class="cc">/* herda! */</span>
+  <span class="cp">font-size</span>:   <span class="cv">1rem</span>;
+  <span class="cp">line-height</span>: <span class="cv">1.55</span>;
+  <span class="cp">color</span>:       <span class="cv">var(--cor-texto)</span>;
+  <span class="cp">background</span>:  <span class="cv">var(--cor-superficie)</span>;
+  <span class="cp">min-height</span>:  <span class="cv">100px</span>;
+  <span class="cp">resize</span>:      <span class="cv">vertical</span>; <span class="cc">/* só vertical */</span>
+  <span class="cp">transition</span>:  <span class="cv">border-color .2s, box-shadow .2s</span>;
+}
+<span class="cs">textarea:focus</span> {
+  <span class="cp">outline</span>:      <span class="cv">none</span>;
+  <span class="cp">border-color</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">box-shadow</span>:   <span class="cv">0 0 0 3px rgba(0,51,102,.15)</span>;
+}</code></pre>
+                        </div>
+                        <div class="box box-warn" style="margin-top:.75rem;">
+                            <strong>font-family não é herdado em textarea</strong>
+                            Por padrão, <code>&lt;textarea&gt;</code> usa uma fonte monoespaçada definida pelo browser. Você precisa declarar <code>font-family: var(--fonte)</code> explicitamente — a propriedade não herda automaticamente de <code>body</code>.
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-form">
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="ex-msg">Mensagem<span class="req">*</span></label>
+                                            <textarea class="demo-textarea" id="ex-msg" name="mensagem" placeholder="Descreva sua dúvida ou comentário..." required rows="4"></textarea>
+                                            <span class="demo-hint">Redimensionável verticalmente pelo usuário</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-tip" style="margin-top:1rem;">
+                            <strong>resize: vertical vs none</strong>
+                            <code>resize: none</code> bloqueia o redimensionamento — prejudica a usabilidade em textos longos. <code>resize: vertical</code> é o equilíbrio: o usuário pode aumentar a altura, mas não distorcer o layout expandindo horizontalmente.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 7 — Select customizado
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo7">
+            <div class="step-header">
+                <span class="step-badge">07</span>
+                <h2>Select — dropdown customizado</h2>
+                <span class="step-target">select · appearance · ::after</span>
+            </div>
+            <div class="step-body">
+                <p>O <code>&lt;select&gt;</code> é um dos controles mais difíceis de estilizar — o browser renderiza sua lista de opções fora do contexto CSS. A técnica abaixo cobre a aparência do "disparador" (a caixa clicável), substituindo a seta nativa por uma customizada via pseudo-elemento no pai.</p>
+
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cc">/* Wrapper para posicionar a seta customizada */</span>
+<span class="cs">.select-wrap</span> {
+  <span class="cp">position</span>: <span class="cv">relative</span>;
+}
+<span class="cs">.select-wrap::after</span> {
+  <span class="cp">content</span>:  <span class="cv">'▾'</span>;
+  <span class="cp">position</span>: <span class="cv">absolute</span>;
+  <span class="cp">right</span>:    <span class="cv">.85rem</span>;
+  <span class="cp">top</span>:      <span class="cv">50%</span>;
+  <span class="cp">transform</span>:<span class="cv">translateY(-50%)</span>;
+  <span class="cp">color</span>:    <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">pointer-events</span>: <span class="cv">none</span>; <span class="cc">/* clique passa p/ o select */</span>
+  <span class="cp">font-size</span>:<span class="cv">.85rem</span>;
+}
+
+<span class="cs">select</span> {
+  <span class="cp">width</span>:             <span class="cv">100%</span>;
+  <span class="cp">padding</span>:           <span class="cv">.55rem 2.5rem .55rem .85rem</span>;
+  <span class="cp">border</span>:            <span class="cv">1.5px solid var(--cor-borda)</span>;
+  <span class="cp">border-radius</span>:     <span class="cv">var(--raio)</span>;
+  <span class="cp">font-family</span>:       <span class="cv">var(--fonte)</span>;
+  <span class="cp">font-size</span>:         <span class="cv">1rem</span>;
+  <span class="cp">color</span>:             <span class="cv">var(--cor-texto)</span>;
+  <span class="cp">background</span>:        <span class="cv">var(--cor-superficie)</span>;
+  <span class="cp">appearance</span>:        <span class="cv">none</span>; <span class="cc">/* remove seta nativa */</span>
+  <span class="cp">-webkit-appearance</span>:<span class="cv">none</span>;
+  <span class="cp">cursor</span>:            <span class="cv">pointer</span>;
+  <span class="cp">transition</span>:        <span class="cv">border-color .2s, box-shadow .2s</span>;
+}
+<span class="cs">select:focus</span> {
+  <span class="cp">outline</span>:      <span class="cv">none</span>;
+  <span class="cp">border-color</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">box-shadow</span>:   <span class="cv">0 0 0 3px rgba(0,51,102,.15)</span>;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-form">
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="ex-curso">Curso<span class="req">*</span></label>
+                                            <div class="demo-select-wrap">
+                                                <select class="demo-select" id="ex-curso" name="curso" required>
+                                                    <option value="">Selecione...</option>
+                                                    <optgroup label="Engenharia">
+                                                        <option value="es">Eng. de Software</option>
+                                                        <option value="ec">Eng. da Computação</option>
+                                                    </optgroup>
+                                                    <option value="cd">Ciência de Dados</option>
+                                                    <option value="ia">Inteligência Artificial</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-info" style="margin-top:1rem;">
+                            <strong>Limitação do select</strong>
+                            CSS não estiliza o <code>&lt;option&gt;</code> de forma consistente — o browser controla a lista drop-down. Para seletores totalmente customizados (cor por opção, ícones, busca), é necessário reconstruir o componente com JavaScript e ARIA. Para formulários simples, o nativo é a escolha certa.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 8 — Radio e Checkbox
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo8">
+            <div class="step-header">
+                <span class="step-badge">08</span>
+                <h2>Radio e Checkbox — pill interativo</h2>
+                <span class="step-target">accent-color · :has() · label wrapping</span>
+            </div>
+            <div class="step-body">
+                <p>A técnica de "pill clicável" envolve o input dentro do label — o clique em qualquer parte da pílula seleciona a opção. A propriedade <code>accent-color</code> troca a cor do marcador nativo sem precisar reconstruí-lo do zero.</p>
+
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cc">/* Grupo de opções em linha */</span>
+<span class="cs">.radio-group,
+.check-group</span> {
+  <span class="cp">display</span>:   <span class="cv">flex</span>;
+  <span class="cp">flex-wrap</span>: <span class="cv">wrap</span>;
+  <span class="cp">gap</span>:       <span class="cv">.5rem</span>;
+  <span class="cp">margin-top</span>:<span class="cv">.25rem</span>;
+}
+
+<span class="cc">/* Label como pill clicável */</span>
+<span class="cs">.radio-group label,
+.check-group label</span> {
+  <span class="cp">display</span>:      <span class="cv">flex</span>;
+  <span class="cp">align-items</span>:  <span class="cv">center</span>;
+  <span class="cp">gap</span>:          <span class="cv">.45rem</span>;
+  <span class="cp">padding</span>:      <span class="cv">.4rem .85rem</span>;
+  <span class="cp">border</span>:       <span class="cv">1.5px solid var(--cor-borda)</span>;
+  <span class="cp">border-radius</span>:<span class="cv">20px</span>;
+  <span class="cp">font-size</span>:    <span class="cv">.88rem</span>;
+  <span class="cp">font-weight</span>:  <span class="cv">400</span>; <span class="cc">/* sobrescreve o bold do label */</span>
+  <span class="cp">cursor</span>:       <span class="cv">pointer</span>;
+  <span class="cp">user-select</span>:  <span class="cv">none</span>;
+  <span class="cp">transition</span>:   <span class="cv">border-color .15s, background .15s</span>;
+}
+<span class="cs">.radio-group label:hover,
+.check-group label:hover</span> {
+  <span class="cp">border-color</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">background</span>:   <span class="cv">#e8edf5</span>;
+}
+
+<span class="cc">/* Estado selecionado via :has() */</span>
+<span class="cs">.radio-group label:has(input:checked),
+.check-group label:has(input:checked)</span> {
+  <span class="cp">border-color</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">background</span>:   <span class="cv">#e8edf5</span>;
+  <span class="cp">font-weight</span>:  <span class="cv">600</span>;
+}
+
+<span class="cc">/* Cor do marcador nativo */</span>
+<span class="cs">input[type="radio"],
+input[type="checkbox"]</span> {
+  <span class="cp">accent-color</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">width</span>: <span class="cv">15px</span>;
+  <span class="cp">height</span>: <span class="cv">15px</span>;
+  <span class="cp">cursor</span>: <span class="cv">pointer</span>;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview — clique nas pílulas</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-form">
+                                        <div class="demo-field">
+                                            <label class="demo-label" style="margin-bottom:.4rem;">Turno preferido<span class="req">*</span></label>
+                                            <div class="demo-radio-group" role="group">
+                                                <label class="demo-radio-label"><input type="radio" name="turno" value="m"> Manhã</label>
+                                                <label class="demo-radio-label"><input type="radio" name="turno" value="t"> Tarde</label>
+                                                <label class="demo-radio-label"><input type="radio" name="turno" value="n"> Noite</label>
+                                            </div>
+                                        </div>
+                                        <div class="demo-field" style="margin-top:1rem;">
+                                            <label class="demo-label" style="margin-bottom:.4rem;">Interesses</label>
+                                            <div class="demo-check-group">
+                                                <label class="demo-check-label"><input type="checkbox" name="int" value="web"> Web</label>
+                                                <label class="demo-check-label"><input type="checkbox" name="int" value="ml"> Machine Learning</label>
+                                                <label class="demo-check-label"><input type="checkbox" name="int" value="dados"> Dados</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-tip" style="margin-top:1rem;">
+                            <strong>:has() — o seletor de pai</strong>
+                            <code>label:has(input:checked)</code> seleciona o label que contém um input marcado. Disponível em todos os browsers modernos desde 2023. Antes, a mesma técnica exigia JavaScript ou o truque do <code>+ span</code> com input escondido.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 9 — Range (slider)
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo9">
+            <div class="step-header">
+                <span class="step-badge">09</span>
+                <h2>Range — slider com valor ao vivo</h2>
+                <span class="step-target">input[type=range] · accent-color · JavaScript mínimo</span>
+            </div>
+            <div class="step-body">
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cs">.range-wrap</span> {
+  <span class="cp">display</span>:     <span class="cv">flex</span>;
+  <span class="cp">align-items</span>: <span class="cv">center</span>;
+  <span class="cp">gap</span>:         <span class="cv">.75rem</span>;
+  <span class="cp">margin-top</span>:  <span class="cv">.25rem</span>;
+}
+
+<span class="cs">input[type="range"]</span> {
+  <span class="cp">flex</span>:         <span class="cv">1</span>;
+  <span class="cp">accent-color</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">height</span>:       <span class="cv">6px</span>;
+  <span class="cp">cursor</span>:       <span class="cv">pointer</span>;
+}
+
+<span class="cs">.range-output</span> {
+  <span class="cp">background</span>:  <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">color</span>:       <span class="cv">#fff</span>;
+  <span class="cp">font-size</span>:   <span class="cv">.78rem</span>;
+  <span class="cp">font-weight</span>: <span class="cv">700</span>;
+  <span class="cp">padding</span>:     <span class="cv">.15rem .55rem</span>;
+  <span class="cp">border-radius</span>:<span class="cv">12px</span>;
+  <span class="cp">min-width</span>:   <span class="cv">38px</span>;
+  <span class="cp">text-align</span>:  <span class="cv">center</span>;
+}</code></pre>
+                        </div>
+                        <div class="code-wrap" style="margin-top:.75rem;">
+                            <div class="code-label">HTML + JS (inline)</div>
+                            <pre><code><span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"range-wrap"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;input</span> <span class="ha">type</span>=<span class="hv">"range"</span>
+    <span class="ha">id</span>=<span class="hv">"nota"</span> <span class="ha">name</span>=<span class="hv">"nota"</span>
+    <span class="ha">min</span>=<span class="hv">"0"</span> <span class="ha">max</span>=<span class="hv">"10"</span> <span class="ha">step</span>=<span class="hv">"0.5"</span>
+    <span class="ha">value</span>=<span class="hv">"5"</span>
+    <span class="ha">aria-labelledby</span>=<span class="hv">"nota-label"</span>
+    <span class="ha">oninput</span>=<span class="hv">"this.nextElementSibling
+      .textContent=this.value"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;output</span> <span class="ha">class</span>=<span class="hv">"range-output"</span><span class="ht">&gt;</span>5<span class="ht">&lt;/output&gt;</span>
+<span class="ht">&lt;/div&gt;</span></code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview — arraste o slider</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-form">
+                                        <div class="demo-field">
+                                            <label class="demo-label" id="nota-label" for="ex-range">Nota de satisfação</label>
+                                            <div class="demo-range-wrap">
+                                                <input class="demo-range" type="range" id="ex-range" name="nota" min="0" max="10" step="0.5" value="5"
+                                                    oninput="this.nextElementSibling.textContent=this.value">
+                                                <span class="demo-range-value">5</span>
+                                            </div>
+                                            <span class="demo-hint">0 = péssimo · 10 = excelente</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-info" style="margin-top:1rem;">
+                            <strong>Elemento &lt;output&gt;</strong>
+                            Use <code>&lt;output&gt;</code> (não <code>&lt;span&gt;</code>) para exibir o valor calculado. É semanticamente correto — o browser o anuncia para leitores de tela como "resultado" do controle vinculado.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 10 — Color e File
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo10">
+            <div class="step-header">
+                <span class="step-badge">10</span>
+                <h2>Color picker e upload de arquivo</h2>
+                <span class="step-target">input[type=color] · input[type=file] · label hack</span>
+            </div>
+            <div class="step-body">
+                <p>O <code>input[type="file"]</code> é quase impossível de estilizar diretamente. A solução padrão de indústria: esconder o input e usar um <code>&lt;label&gt;</code> estilizado como botão. O <code>input[type="color"]</code> aceita CSS básico na caixa de cor, mas o picker nativo permanece controlado pelo browser.</p>
+
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cc">/* Color picker */</span>
+<span class="cs">input[type="color"]</span> {
+  <span class="cp">width</span>:         <span class="cv">100%</span>;
+  <span class="cp">height</span>:        <span class="cv">44px</span>;
+  <span class="cp">padding</span>:       <span class="cv">2px 4px</span>;
+  <span class="cp">border</span>:        <span class="cv">1.5px solid var(--cor-borda)</span>;
+  <span class="cp">border-radius</span>: <span class="cv">var(--raio)</span>;
+  <span class="cp">background</span>:    <span class="cv">var(--cor-superficie)</span>;
+  <span class="cp">cursor</span>:        <span class="cv">pointer</span>;
+  <span class="cp">transition</span>:    <span class="cv">border-color .2s</span>;
+}
+<span class="cs">input[type="color"]:focus</span> {
+  <span class="cp">outline</span>:      <span class="cv">none</span>;
+  <span class="cp">border-color</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">box-shadow</span>:   <span class="cv">0 0 0 3px rgba(0,51,102,.15)</span>;
+}
+
+<span class="cc">/* Esconde o input nativo */</span>
+<span class="cs">.file-input</span> {
+  <span class="cp">position</span>: <span class="cv">absolute</span>;
+  <span class="cp">opacity</span>:  <span class="cv">0</span>;
+  <span class="cp">width</span>:    <span class="cv">0</span>;
+  <span class="cp">height</span>:   <span class="cv">0</span>;
+}
+
+<span class="cc">/* Label estilizado como área de drop */</span>
+<span class="cs">.file-label</span> {
+  <span class="cp">display</span>:       <span class="cv">flex</span>;
+  <span class="cp">align-items</span>:   <span class="cv">center</span>;
+  <span class="cp">gap</span>:           <span class="cv">.6rem</span>;
+  <span class="cp">border</span>:        <span class="cv">1.5px dashed var(--cor-borda)</span>;
+  <span class="cp">border-radius</span>: <span class="cv">var(--raio)</span>;
+  <span class="cp">padding</span>:       <span class="cv">.65rem .85rem</span>;
+  <span class="cp">font-size</span>:     <span class="cv">.88rem</span>;
+  <span class="cp">color</span>:         <span class="cv">var(--cor-muted)</span>;
+  <span class="cp">cursor</span>:        <span class="cv">pointer</span>;
+  <span class="cp">transition</span>:    <span class="cv">border-color .2s, background .2s</span>;
+}
+<span class="cs">.file-label:hover</span> {
+  <span class="cp">border-color</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">background</span>:   <span class="cv">#e8edf5</span>;
+  <span class="cp">color</span>:        <span class="cv">var(--cor-principal)</span>;
+}
+<span class="cc">/* Foco acessível para navegação por teclado */</span>
+<span class="cs">.file-input:focus-visible + .file-label</span> {
+  <span class="cp">outline</span>:      <span class="cv">3px solid var(--cor-principal)</span>;
+  <span class="cp">outline-offset</span>:<span class="cv">2px</span>;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-form">
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="ex-cor">Cor favorita</label>
+                                            <input class="demo-input-color" type="color" id="ex-cor" name="cor" value="#003366">
+                                        </div>
+                                        <div class="demo-field" style="margin-top:1rem;">
+                                            <label class="demo-label">Foto de perfil</label>
+                                            <div style="position:relative;">
+                                                <input class="demo-file-input" type="file" id="ex-file" name="foto" accept="image/*">
+                                                <label class="demo-file-label" for="ex-file">
+                                                    <span class="icon">📎</span>
+                                                    Clique para selecionar ou arraste aqui
+                                                </label>
+                                            </div>
+                                            <span class="demo-hint">PNG, JPG ou WEBP · máx. 2 MB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-warn" style="margin-top:1rem;">
+                            <strong>Acessibilidade do file hidden</strong>
+                            O input escondido com <code>opacity: 0</code> ainda recebe foco por teclado. Por isso use <code>.file-input:focus-visible + .file-label</code> para exibir o anel de foco no label — não no input invisível.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 11 — Date e Number
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo11">
+            <div class="step-header">
+                <span class="step-badge">11</span>
+                <h2>Date, datetime-local e Number</h2>
+                <span class="step-target">input[type=date] · input[type=number] · ::-webkit-inner-spin-button</span>
+            </div>
+            <div class="step-body">
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cs">input[type="date"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="time"]</span> {
+  <span class="cp">width</span>:         <span class="cv">100%</span>;
+  <span class="cp">padding</span>:       <span class="cv">.55rem .85rem</span>;
+  <span class="cp">border</span>:        <span class="cv">1.5px solid var(--cor-borda)</span>;
+  <span class="cp">border-radius</span>: <span class="cv">var(--raio)</span>;
+  <span class="cp">font-family</span>:   <span class="cv">var(--fonte)</span>;
+  <span class="cp">font-size</span>:     <span class="cv">1rem</span>;
+  <span class="cp">color</span>:         <span class="cv">var(--cor-texto)</span>;
+  <span class="cp">background</span>:    <span class="cv">var(--cor-superficie)</span>;
+  <span class="cp">transition</span>:    <span class="cv">border-color .2s, box-shadow .2s</span>;
+}
+<span class="cs">input[type="date"]:focus</span>,
+<span class="cs">input[type="datetime-local"]:focus</span> {
+  <span class="cp">outline</span>:      <span class="cv">none</span>;
+  <span class="cp">border-color</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">box-shadow</span>:   <span class="cv">0 0 0 3px rgba(0,51,102,.15)</span>;
+}
+
+<span class="cs">input[type="number"]</span> {
+  <span class="cp">width</span>:         <span class="cv">100%</span>;
+  <span class="cp">padding</span>:       <span class="cv">.55rem .85rem</span>;
+  <span class="cp">border</span>:        <span class="cv">1.5px solid var(--cor-borda)</span>;
+  <span class="cp">border-radius</span>: <span class="cv">var(--raio)</span>;
+  <span class="cp">font-family</span>:   <span class="cv">var(--fonte)</span>;
+  <span class="cp">font-size</span>:     <span class="cv">1rem</span>;
+  <span class="cp">transition</span>:    <span class="cv">border-color .2s, box-shadow .2s</span>;
+}
+<span class="cc">/* Remove setas de incremento no Chrome */</span>
+<span class="cs">input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button</span> {
+  <span class="cp">-webkit-appearance</span>: <span class="cv">none</span>;
+}
+<span class="cc">/* Remove seta no Firefox */</span>
+<span class="cs">input[type="number"]</span> {
+  <span class="cp">-moz-appearance</span>: <span class="cv">textfield</span>;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-form">
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="ex-data">Data de nascimento<span class="req">*</span></label>
+                                            <input class="demo-input-date" type="date" id="ex-data" name="nascimento">
+                                        </div>
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="ex-num">Semestre atual<span class="req">*</span></label>
+                                            <input class="demo-input-number" type="number" id="ex-num" name="semestre" min="1" max="10" placeholder="1–10">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-tip" style="margin-top:1rem;">
+                            <strong>Remover as setas do number</strong>
+                            As setas de incremento do <code>type="number"</code> ocupam espaço e o estilo delas varia muito entre browsers. Removê-las cria aparência consistente — o usuário ainda pode digitar o valor ou usar ↑↓ do teclado.
+                        </div>
+                        <div class="box box-warn" style="margin-top:.75rem;">
+                            <strong>CEP, CPF e telefone: use type="text"</strong>
+                            Dados que parecem números mas não são quantidades matemáticas (zeros à esquerda, formatação com traço) devem usar <code>type="text"</code> com <code>inputmode="numeric"</code> e <code>pattern</code>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 12 — Password com força
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo12">
+            <div class="step-header">
+                <span class="step-badge">12</span>
+                <h2>Password — toggle de visibilidade e barra de força</h2>
+                <span class="step-target">input[type=password] · position:relative · JS mínimo</span>
+            </div>
+            <div class="step-body">
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cs">.password-wrap</span> {
+  <span class="cp">position</span>: <span class="cv">relative</span>;
+}
+<span class="cs">input[type="password"],
+input[type="text"].is-password</span> {
+  <span class="cp">width</span>:         <span class="cv">100%</span>;
+  <span class="cp">padding</span>:       <span class="cv">.55rem 2.75rem .55rem .85rem</span>;
+  <span class="cp">border</span>:        <span class="cv">1.5px solid var(--cor-borda)</span>;
+  <span class="cp">border-radius</span>: <span class="cv">var(--raio)</span>;
+  <span class="cp">font-family</span>:   <span class="cv">var(--fonte)</span>;
+  <span class="cp">font-size</span>:     <span class="cv">1rem</span>;
+  <span class="cp">transition</span>:    <span class="cv">border-color .2s, box-shadow .2s</span>;
+}
+<span class="cs">.password-toggle</span> {
+  <span class="cp">position</span>:  <span class="cv">absolute</span>;
+  <span class="cp">right</span>:     <span class="cv">.75rem</span>;
+  <span class="cp">top</span>:       <span class="cv">50%</span>;
+  <span class="cp">transform</span>: <span class="cv">translateY(-50%)</span>;
+  <span class="cp">background</span>: <span class="cv">none</span>;
+  <span class="cp">border</span>:     <span class="cv">none</span>;
+  <span class="cp">cursor</span>:     <span class="cv">pointer</span>;
+  <span class="cp">color</span>:      <span class="cv">var(--cor-muted)</span>;
+  <span class="cp">font-size</span>:  <span class="cv">.9rem</span>;
+  <span class="cp">padding</span>:    <span class="cv">.2rem</span>;
+  <span class="cp">line-height</span>:<span class="cv">1</span>;
+  <span class="cp">transition</span>: <span class="cv">color .15s</span>;
+}
+<span class="cs">.password-toggle:hover</span> { <span class="cp">color</span>: <span class="cv">var(--cor-principal)</span>; }
+
+<span class="cc">/* Barra de força da senha */</span>
+<span class="cs">.strength-bar</span> {
+  <span class="cp">height</span>:        <span class="cv">4px</span>;
+  <span class="cp">border-radius</span>: <span class="cv">2px</span>;
+  <span class="cp">background</span>:    <span class="cv">#e0e0e0</span>;
+  <span class="cp">margin-top</span>:    <span class="cv">.35rem</span>;
+  <span class="cp">overflow</span>:      <span class="cv">hidden</span>;
+}
+<span class="cs">.strength-fill</span> {
+  <span class="cp">height</span>:     <span class="cv">100%</span>;
+  <span class="cp">width</span>:      <span class="cv">0%</span>;
+  <span class="cp">border-radius</span>: <span class="cv">2px</span>;
+  <span class="cp">background</span>: <span class="cv">var(--cor-sucesso)</span>;
+  <span class="cp">transition</span>: <span class="cv">width .3s ease, background .3s ease</span>;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview — digite uma senha</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-form">
+                                        <div class="demo-field">
+                                            <label class="demo-label" for="ex-pass">Senha<span class="req">*</span></label>
+                                            <div class="demo-password-wrap">
+                                                <input class="demo-input" type="password" id="ex-pass" name="senha" placeholder="Mínimo 8 caracteres"
+                                                    style="padding-right:2.75rem;"
+                                                    oninput="
+                                                        var v=this.value,s=document.getElementById('sf'),l=v.length;
+                                                        var pct=Math.min(l/12*100,100);
+                                                        s.style.width=pct+'%';
+                                                        s.style.background=l<4?'#e53935':l<8?'#ff9800':l<12?'#fdd835':'#2e7d32';
+                                                    ">
+                                                <button type="button" class="demo-password-toggle" aria-label="Mostrar ou ocultar senha"
+                                                    onclick="
+                                                        var i=this.previousElementSibling;
+                                                        i.type=i.type==='password'?'text':'password';
+                                                        this.textContent=i.type==='password'?'👁':'🙈';
+                                                    ">👁</button>
+                                            </div>
+                                            <div class="demo-strength-bar"><div class="demo-strength-fill" id="sf"></div></div>
+                                            <span class="demo-hint">Vermelho = fraca · Amarelo = média · Verde = forte</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-info" style="margin-top:1rem;">
+                            <strong>aria-label no botão de toggle</strong>
+                            O botão não tem texto visível — só um ícone. O <code>aria-label="Mostrar ou ocultar senha"</code> é obrigatório para que leitores de tela anunciem a função do botão (WCAG SC 4.1.2).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             PASSO 13 — Botões e foco
+        ══════════════════════════════════════════════ -->
+        <section class="step-section" id="passo13">
+            <div class="step-header">
+                <span class="step-badge">13</span>
+                <h2>Botões — primary, secondary e estados de foco</h2>
+                <span class="step-target">button · :hover · :active · :focus-visible · :disabled</span>
+            </div>
+            <div class="step-body">
+                <p>O botão de envio é o elemento mais clicado do formulário — e o mais negligenciado em acessibilidade. Além dos estados hover e active, <code>:focus-visible</code> e <code>:disabled</code> são obrigatórios para um produto profissional.</p>
+
+                <div class="two-col">
+                    <div>
+                        <div class="code-wrap">
+                            <div class="code-label">style.css</div>
+                            <pre><code><span class="cs">.btn-row</span> {
+  <span class="cp">display</span>:    <span class="cv">flex</span>;
+  <span class="cp">gap</span>:        <span class="cv">.75rem</span>;
+  <span class="cp">flex-wrap</span>:  <span class="cv">wrap</span>;
+  <span class="cp">margin-top</span>: <span class="cv">1.5rem</span>;
+}
+
+<span class="cc">/* Botão primário */</span>
+<span class="cs">.btn-primary</span> {
+  <span class="cp">flex</span>:         <span class="cv">1</span>;
+  <span class="cp">padding</span>:      <span class="cv">.75rem 1.5rem</span>;
+  <span class="cp">background</span>:   <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">color</span>:        <span class="cv">#ffffff</span>;
+  <span class="cp">border</span>:       <span class="cv">none</span>;
+  <span class="cp">border-radius</span>:<span class="cv">var(--raio)</span>;
+  <span class="cp">font-family</span>:  <span class="cv">var(--fonte)</span>;
+  <span class="cp">font-size</span>:    <span class="cv">1rem</span>;
+  <span class="cp">font-weight</span>:  <span class="cv">700</span>;
+  <span class="cp">cursor</span>:       <span class="cv">pointer</span>;
+  <span class="cp">transition</span>:   <span class="cv">background .2s, transform .12s</span>;
+  <span class="cp">min-height</span>:   <span class="cv">44px</span>; <span class="cc">/* WCAG 2.5.5 */</span>
+}
+<span class="cs">.btn-primary:hover</span>  { <span class="cp">background</span>: <span class="cv">#00509e</span>; }
+<span class="cs">.btn-primary:active</span> { <span class="cp">transform</span>:  <span class="cv">scale(.97)</span>; }
+<span class="cs">.btn-primary:focus-visible</span> {
+  <span class="cp">outline</span>:       <span class="cv">3px solid var(--cor-destaque)</span>;
+  <span class="cp">outline-offset</span>:<span class="cv">3px</span>;
+}
+<span class="cs">.btn-primary:disabled</span> {
+  <span class="cp">background</span>: <span class="cv">#9bb0cc</span>;
+  <span class="cp">cursor</span>:     <span class="cv">not-allowed</span>;
+  <span class="cp">opacity</span>:    <span class="cv">.65</span>;
+}
+
+<span class="cc">/* Botão secundário (outline) */</span>
+<span class="cs">.btn-secondary</span> {
+  <span class="cp">padding</span>:      <span class="cv">.75rem 1.25rem</span>;
+  <span class="cp">background</span>:   <span class="cv">transparent</span>;
+  <span class="cp">color</span>:        <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">border</span>:       <span class="cv">1.5px solid var(--cor-principal)</span>;
+  <span class="cp">border-radius</span>:<span class="cv">var(--raio)</span>;
+  <span class="cp">font-family</span>:  <span class="cv">var(--fonte)</span>;
+  <span class="cp">font-size</span>:    <span class="cv">.95rem</span>;
+  <span class="cp">cursor</span>:       <span class="cv">pointer</span>;
+  <span class="cp">min-height</span>:   <span class="cv">44px</span>;
+  <span class="cp">transition</span>:   <span class="cv">background .2s, color .2s</span>;
+}
+<span class="cs">.btn-secondary:hover</span> {
+  <span class="cp">background</span>: <span class="cv">var(--cor-principal)</span>;
+  <span class="cp">color</span>:      <span class="cv">#fff</span>;
+}
+<span class="cs">.btn-secondary:focus-visible</span> {
+  <span class="cp">outline</span>:       <span class="cv">3px solid var(--cor-principal)</span>;
+  <span class="cp">outline-offset</span>:<span class="cv">3px</span>;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">Preview — experimente Tab e Enter</div>
+                            <div class="demo-form-wrap">
+                                <div class="demo-card">
+                                    <div class="demo-form">
+                                        <p style="font-size:.84rem; color:var(--f-muted); margin-bottom:1rem;">Pressione Tab para navegar — observe o anel de foco amarelo</p>
+                                        <div class="demo-btn-row">
+                                            <button type="submit" class="demo-btn-primary">Enviar cadastro</button>
+                                            <button type="button" class="demo-btn-secondary">Limpar</button>
+                                        </div>
+                                        <div class="demo-btn-row" style="margin-top:.75rem;">
+                                            <button type="submit" class="demo-btn-primary" disabled>Enviando... (disabled)</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box box-ok" style="margin-top:1rem;">
+                            <strong>:focus-visible vs :focus</strong>
+                            <code>:focus</code> é disparado também ao clicar com mouse — exibe o anel mesmo quando não é necessário. <code>:focus-visible</code> só exibe o anel quando o browser detecta navegação por teclado. Resultado: mouse não vê o anel, teclado sempre vê.
+                        </div>
+                        <div class="box box-info" style="margin-top:.75rem;">
+                            <strong>min-height: 44px — WCAG 2.5.5</strong>
+                            O critério Target Size (Nível AA no WCAG 2.2) exige área mínima de toque de 24×24px; 44px é o valor recomendado por Apple e Google para conforto em touchscreen.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════
+             FORMULÁRIO FINAL
+        ══════════════════════════════════════════════ -->
+        <div class="section-divider"><span>Resultado final — formulário completo</span></div>
+
+        <section class="step-section" id="resultado-final" style="scroll-margin-top:100px;">
+            <div class="step-header" style="background:#1b5e20;">
+                <span class="step-badge" style="background:var(--yellow); color:#1b5e20;">✓</span>
+                <h2>Formulário completo com todos os tipos</h2>
+                <span class="step-target" style="background:rgba(255,255,255,.12);">Todos os 13 passos aplicados</span>
+            </div>
+            <div class="step-body">
+                <p>Abaixo está o formulário com todos os estilos dos 13 passos aplicados simultaneamente. Todos os controles funcionam e são navegáveis por teclado.</p>
+
+                <!-- FORMULÁRIO COMPLETO AO VIVO -->
+                <div class="demo-form-wrap" style="padding:0; background:transparent;">
+                    <div class="demo-card">
+                        <div class="demo-card-header">
+                            <h3>Cadastro de Aluno — Ibmec 2026.1</h3>
+                            <p>Campos marcados com * são obrigatórios</p>
+                        </div>
+                        <form class="demo-form" novalidate>
+
+                            <fieldset class="demo-fieldset">
+                                <legend class="demo-legend">Dados Pessoais</legend>
+
+                                <div class="demo-field">
+                                    <label class="demo-label" for="f-nome">Nome completo<span class="req">*</span></label>
+                                    <input class="demo-input" type="text" id="f-nome" name="nome" placeholder="Ex: Maria da Silva" required minlength="3">
+                                </div>
+
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:.75rem;">
+                                    <div class="demo-field">
+                                        <label class="demo-label" for="f-email">E-mail<span class="req">*</span></label>
+                                        <input class="demo-input" type="email" id="f-email" name="email" placeholder="maria@exemplo.com" required>
+                                    </div>
+                                    <div class="demo-field">
+                                        <label class="demo-label" for="f-tel">Telefone</label>
+                                        <input class="demo-input" type="tel" id="f-tel" name="tel" placeholder="(31) 99999-9999" pattern="\(\d{2}\)\s?\d{4,5}-\d{4}">
+                                    </div>
+                                </div>
+
+                                <div class="demo-field">
+                                    <label class="demo-label" for="f-nasc">Data de nascimento<span class="req">*</span></label>
+                                    <input class="demo-input-date" type="date" id="f-nasc" name="nascimento" required>
+                                </div>
+
+                                <div class="demo-field">
+                                    <label class="demo-label" for="f-pass">Senha<span class="req">*</span></label>
+                                    <div class="demo-password-wrap">
+                                        <input class="demo-input" type="password" id="f-pass" name="senha"
+                                            placeholder="Mínimo 8 caracteres"
+                                            style="padding-right:2.75rem;"
+                                            required minlength="8"
+                                            oninput="
+                                                var v=this.value,s=document.getElementById('sf2'),l=v.length;
+                                                var pct=Math.min(l/12*100,100);
+                                                s.style.width=pct+'%';
+                                                s.style.background=l<4?'#e53935':l<8?'#ff9800':l<12?'#fdd835':'#2e7d32';
+                                            ">
+                                        <button type="button" class="demo-password-toggle" aria-label="Mostrar ou ocultar senha"
+                                            onclick="
+                                                var i=this.previousElementSibling;
+                                                i.type=i.type==='password'?'text':'password';
+                                                this.textContent=i.type==='password'?'👁':'🙈';
+                                            ">👁</button>
+                                    </div>
+                                    <div class="demo-strength-bar"><div class="demo-strength-fill" id="sf2"></div></div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="demo-fieldset">
+                                <legend class="demo-legend">Dados Acadêmicos</legend>
+
+                                <div style="display:grid; grid-template-columns:2fr 1fr; gap:.75rem;">
+                                    <div class="demo-field">
+                                        <label class="demo-label" for="f-curso">Curso<span class="req">*</span></label>
+                                        <div class="demo-select-wrap">
+                                            <select class="demo-select" id="f-curso" name="curso" required>
+                                                <option value="">Selecione...</option>
+                                                <optgroup label="Engenharia">
+                                                    <option value="es">Eng. de Software</option>
+                                                    <option value="ec">Eng. da Computação</option>
+                                                </optgroup>
+                                                <option value="cd">Ciência de Dados</option>
+                                                <option value="ia">Inteligência Artificial</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="demo-field">
+                                        <label class="demo-label" for="f-sem">Semestre</label>
+                                        <input class="demo-input-number" type="number" id="f-sem" name="semestre" min="1" max="10" placeholder="1–10">
+                                    </div>
+                                </div>
+
+                                <div class="demo-field">
+                                    <label class="demo-label">Turno<span class="req">*</span></label>
+                                    <div class="demo-radio-group" role="radiogroup" aria-label="Turno preferido">
+                                        <label class="demo-radio-label"><input type="radio" name="turno" value="m" required> Manhã</label>
+                                        <label class="demo-radio-label"><input type="radio" name="turno" value="t"> Tarde</label>
+                                        <label class="demo-radio-label"><input type="radio" name="turno" value="n"> Noite</label>
+                                    </div>
+                                </div>
+
+                                <div class="demo-field">
+                                    <label class="demo-label">Interesses</label>
+                                    <div class="demo-check-group">
+                                        <label class="demo-check-label"><input type="checkbox" name="int" value="web"> Desenvolvimento Web</label>
+                                        <label class="demo-check-label"><input type="checkbox" name="int" value="ml"> Machine Learning</label>
+                                        <label class="demo-check-label"><input type="checkbox" name="int" value="dados"> Análise de Dados</label>
+                                        <label class="demo-check-label"><input type="checkbox" name="int" value="cloud"> Cloud</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="demo-fieldset">
+                                <legend class="demo-legend">Configurações e Extras</legend>
+
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:.75rem;">
+                                    <div class="demo-field">
+                                        <label class="demo-label" for="f-cor">Cor favorita</label>
+                                        <input class="demo-input-color" type="color" id="f-cor" name="cor" value="#003366">
+                                    </div>
+                                    <div class="demo-field">
+                                        <label class="demo-label" for="f-nota">Nota de satisfação</label>
+                                        <div class="demo-range-wrap" style="margin-top:.3rem;">
+                                            <input class="demo-range" type="range" id="f-nota" name="nota" min="0" max="10" step="0.5" value="7"
+                                                oninput="this.nextElementSibling.textContent=this.value">
+                                            <span class="demo-range-value">7</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="demo-field">
+                                    <label class="demo-label">Foto de perfil</label>
+                                    <div style="position:relative;">
+                                        <input class="demo-file-input" type="file" id="f-foto" name="foto" accept="image/*">
+                                        <label class="demo-file-label" for="f-foto">
+                                            <span class="icon">📎</span>
+                                            Clique para selecionar ou arraste aqui
+                                        </label>
+                                    </div>
+                                    <span class="demo-hint">PNG, JPG ou WEBP · máx. 2 MB</span>
+                                </div>
+
+                                <div class="demo-field">
+                                    <label class="demo-label" for="f-msg">Mensagem ou observações</label>
+                                    <textarea class="demo-textarea" id="f-msg" name="mensagem" placeholder="Escreva aqui..." rows="3"></textarea>
+                                </div>
+
+                                <div class="demo-field">
+                                    <label class="demo-check-label" style="border-radius:var(--f-radius); padding:.5rem .75rem;">
+                                        <input type="checkbox" name="termos" required>
+                                        Li e aceito os termos de uso e a política de privacidade
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <div class="demo-btn-row">
+                                <button type="submit" class="demo-btn-primary">Enviar cadastro</button>
+                                <button type="reset" class="demo-btn-secondary">Limpar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Checklist final -->
+                <div class="box box-ok" style="margin-top:1.5rem;">
+                    <strong>✅ Checklist de qualidade — verifique antes de entregar</strong>
+                    <ul class="checklist" style="margin-top:.75rem;">
+                        <li>Validar CSS em <strong>jigsaw.w3.org/css-validator</strong> — zero erros</li>
+                        <li>Verificar contraste em <strong>webaim.org/resources/contrastchecker</strong> — mín. 4,5:1</li>
+                        <li>Navegar o formulário inteiro só com Tab — todos os campos recebem foco visível</li>
+                        <li>Testar em mobile (DevTools &lt;480px) — sem scroll horizontal, campos legíveis</li>
+                        <li>Simular <code>prefers-reduced-motion</code> no DevTools — transições desativadas</li>
+                        <li>Nenhum atributo <code>style=""</code> no HTML — tudo no CSS externo</li>
+                        <li>Nenhum uso de <code>!important</code> no style.css</li>
+                        <li>Todos os <code>font-size</code> em <code>rem</code>, nunca <code>px</code></li>
+                    </ul>
+                </div>
+
+                <!-- Referências -->
+                <div class="box box-info" style="margin-top:1rem;">
+                    <strong>Referências utilizadas neste guia</strong>
+                    HTML Living Standard §4.10 (WHATWG) · CSS Cascading Level 5, CSS Box Model Level 3, CSS Selectors Level 4 (W3C) · WCAG 2.2 SC 1.3.1, 1.4.3, 1.4.4, 2.4.7, 2.5.5, 4.1.2 (W3C/WAI) · MDN Web Docs: &lt;input&gt; types, :focus-visible, :has(), accent-color · web.dev/learn/forms (Google)
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    // ── Atualiza sidebar active e progress conforme scroll ──
+    const sections = document.querySelectorAll('.step-section[id]');
+    const navLinks  = document.querySelectorAll('#step-nav a');
+    const label     = document.getElementById('progress-label');
+    const total     = navLinks.length;
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const id = entry.target.id;
+            navLinks.forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+            });
+            const idx = Array.from(navLinks).findIndex(a => a.getAttribute('href') === '#' + id);
+            if (idx >= 0) label.textContent = `Passo ${idx + 1} de ${total}`;
+        });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
