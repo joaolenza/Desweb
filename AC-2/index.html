@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="titulo">
+        <h1>Cadastro aluno</h1>
+        <p>João Lenza - treino HTML</p>
+    </header>
+    <main>
+    <form action="/cadastro" method="post" autocomplete="on">
+        <fieldset>
+            <legend>Dados pessoais</legend>
+            <div class="campo">
+                <label for="nome">Nome completo</label>
+                <input class="input1"
+                    type="text" 
+                    id="nome" 
+                    name="nome"
+                    autocomplete="name" 
+                    required
+                    aria-describedby="nc" 
+                    placeholder="Ex.: Gabriel Gandra Brescia">
+                <p class="campo1" id="nc">Digite o seu nome completo</p>
+            </div>
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input class="input1"
+                    type="email" 
+                    id="email"
+                    name="email" 
+                    autocomplete="email"
+                    required
+                    aria-describedby="em" 
+                    placeholder="nome@dominio.com">   
+                <p class="campo1" id="em">Digite o seu e-mail</p>
+            </div>
+            <div class="campo">
+                <label for="cpf">CPF</label>
+                <input class="input1"
+                    type="text" 
+                    id="cpf"
+                    name="cpf" 
+                    required
+                    maxlength="14"
+                    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
+                    aria-describedby="cp"
+                    title="Formato: 000.000.000-00"
+                    placeholder="000.000.000-00">
+                <p class="campo1" id="cp">Digite o seu CPF</p>
+            </div>
+            <div class="campo">
+                <label for="datanas">Data de nascimento</label>
+                <input class="input1"
+                    type="date" 
+                    id="datanas"
+                    name="datanas" 
+                    required
+                    aria-describedby="dt">
+                <p class="campo1" id="dt">Escolha a sua data de nascimento</p>
+            </div>
+        </fieldset>
+
+        <fieldset>
+        <legend>Endereço</legend>
+
+        <div class="campo">
+          <label for="cep">CEP</label>
+          <input class="input1" 
+            type="text" 
+            id="cep"
+            name="cep"
+            required
+            placeholder="00000-000"
+            title="Formato: 00000-000"
+            pattern="\d{5}-\d{3}"
+            aria-describedby="cep-desc">
+            <p class="campo1" id="cep-desc">Digite o seu CEP</p>
+        </div>
+
+        <div class="campo">
+          <label for="endereco">Endereço</label>
+          <input class="input1" 
+            type="text" 
+            id="endereco"
+            name="endereco"
+            required
+            placeholder="Rua / Avenida"
+            aria-describedby="end-desc">
+            <p class="campo1" id="end-desc">Digite o nome da rua ou avenida</p>
+        </div>
+
+        <div class="linha">
+          <div class="campo">
+            <label for="cidade">Cidade</label>
+            <input class="input1" 
+                type="text" 
+                id="cidade"
+                name="cidade"
+                required
+                aria-describedby="cidade-desc">
+                <p class="campo1" id="cidade-desc">Digite a cidade onde você mora</p>
+          </div>
+
+          <div class="campo">
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado" required aria-describedby="estado-desc">
+              <option value="">Selecione</option>
+              <option value="MG">MG</option>
+              <option value="SP">SP</option>
+              <option value="RJ">RJ</option>
+              <option value="DF">DF</option>
+            </select>
+            <p class="campo1" id="estado-desc">Selecione o estado</p>
+          </div>
+        </div>
+
+      </fieldset>
+
+        <fieldset>
+            <legend>Cursos</legend>
+
+            <div class="campo">
+            <label for="curso">Curso</label>
+            <select id="curso" name="curso" required aria-describedby="curso-desc">
+                <option value="">Selecione um curso</option>
+                <option value="ec">Eng. computação</option>
+                <option value="es">Eng. software</option>
+                <option value="eciv">Eng. civil</option>
+                <option value="ep">Eng. produção</option>
+                <option value="dir">Direito</option>
+                <option value="eco">Economia</option>
+            </select>
+            <p class="campo1" id="curso-desc">Escolha o curso desejado</p>
+            </div>
+        </fieldset>
+
+        <fieldset aria-describedby="turno-desc">
+            <legend>Turno</legend>
+
+            <div class="campo">
+            <input type="radio" id="manha" name="turno" value="manha" required>
+            <label for="manha">Manhã</label>
+            </div>
+            <div class="campo">
+            <input type="radio" id="tarde" name="turno" value="tarde" >
+            <label for="tarde">Tarde</label>
+            </div>
+
+            <div class="campo">
+            <input type="radio" id="noite" name="turno" value="noite" >
+            <label for="noite">Noite</label>
+            <p class="campo1" id="turno-desc">Selecione o turno em que deseja estudar</p>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Termo de uso</legend>
+
+            <input type="checkbox" id="termos" name="termos" required aria-describedby="termos-desc">
+            <label for="termos">Aceito os termos</label>
+            <p class="campo1" id="termos-desc">Você precisa aceitar os termos para continuar</p>
+        </fieldset>
+
+        <button type="reset">Limpar formulário</button>
+        <button type="submit">Cadastrar aluno</button>
+    </form>
+    </main>
+</body>
+</html>
