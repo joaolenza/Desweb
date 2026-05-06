@@ -1,0 +1,5 @@
+2.4 
+
+Com -800px de largura aparecem 4 colunas.
+Com -400px de largura aparecem 2 colunas.
+Se tiver menos de 160px a coluna diminui de tamanho, perdendo o conteúdo que está dentro.

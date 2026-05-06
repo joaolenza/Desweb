@@ -1,0 +1,4 @@
+3.4
+
+O justify-itens vai alinhar todos os itens dentro do container, o justfy-self vai alinha somente o item que ele está ligado.
+O align-items → alinha os itens dentro de seus espaços especificos, já o align-content distribui as linhas de todo o espaço sobrando do container.

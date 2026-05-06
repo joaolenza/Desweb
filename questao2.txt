@@ -1,0 +1,1 @@
+O auto-fill cria todas colunas possíveis sem "invadir" o espaço daquelas que estão vaziaaa, já o auto-fit ignora as vazias e usa todo o espaço dispoível.   

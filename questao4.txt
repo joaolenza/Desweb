@@ -1,0 +1,2 @@
+    os nomes em grid-area não batem com os nomes em grid-template-areas.
+    Para corrigir o header deve colocar nos dois locais como header e para corrigir o footer deve colocar nos dois locais o footer.

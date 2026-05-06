@@ -1,0 +1,4 @@
+4.4
+
+Devemos mudar o grid-template-areas na media query porque se mudarmos somente o número de colunas, os elementos da página não serão reorganizados automaticamente, ja que alguns elementos foram programados para ficaem de lado a lado. Já no teledone, o pedido é que tudo fiiue organiado em uma coluna vertical.
+d
